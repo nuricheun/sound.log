@@ -9,10 +9,28 @@ import Button from "@material-ui/core/Button";
 import { ButtonWrapper } from "../wrapper/wrapper";
 import { styled as materialStyled } from "@material-ui/core/styles";
 import { connect } from "react-redux";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import HeadsetIcon from "@material-ui/icons/Headset";
 
 const mapStateToProps = ({ user }) => ({
   currentUser: user.currentUser,
 });
+
+const Logo = styled.div`
+  font-family: "Reenie Beanie", cursive;
+  ${"" /* font-family: 'Sue Ellen Francisco', cursive; */}
+  width: 100px;
+  height: 50px;
+  background-color: #ff7802;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  padding: 0 5px;
+  box-sizing: border-box;
+`;
 
 const NavBarLink = styled(Link)`
   text-decoration: none;
@@ -21,9 +39,13 @@ const NavBarLink = styled(Link)`
 
 const RightSection = materialStyled(Button)({
   height: "100%",
+  display: "flex",
+  alignItems: "center",
+  minWidth: "50px",
   fontSize: "14px",
   margin: 0,
-
+  textTransform: "none",
+  lineHeight: 0,
   color: "#ccc",
   "&:hover": {
     color: "#fff",
@@ -32,6 +54,7 @@ const RightSection = materialStyled(Button)({
 
 const LeftSectionButton = materialStyled(Button)({
   height: "100%",
+  textTransform: "none",
   borderRadius: 0,
   borderRight: "1px solid #111",
   width: "100px",
@@ -62,7 +85,12 @@ export const TopNavBar = ({ currentUser, signout }) => {
       <SideNavWrapper />
       <MiddleNavWrapper>
         <LeftSectionButton>
-          <NavBarLink to="/">LOGO</NavBarLink>
+          <NavBarLink to="/">
+            <Logo>
+              <HeadsetIcon />
+              {".log()"}
+            </Logo>
+          </NavBarLink>
         </LeftSectionButton>
         <LeftSectionButton>
           <NavBarLink to="/tracks">Home</NavBarLink>
@@ -83,9 +111,18 @@ export const TopNavBar = ({ currentUser, signout }) => {
             </ButtonWrapper>
           </>
         ) : (
-          <RightSection>
-            <NavBarLink to="/upload">SLOWDIVE</NavBarLink>
-          </RightSection>
+          <>
+            <RightSection>
+              <NavBarLink to="/">
+                <GitHubIcon />
+              </NavBarLink>
+            </RightSection>
+            <RightSection>
+              <AccountCircleIcon />
+              &nbsp;
+              <NavBarLink to="/">SLOWDIVE</NavBarLink>
+            </RightSection>
+          </>
         )}
         <RightSection>
           <NavBarLink to="/upload">Upload</NavBarLink>

@@ -85,10 +85,10 @@ export const RowWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-export const RowTrackWrapper = styled.div`
+export const TracShowRowkWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   margin-top: 20px;
 `;
 

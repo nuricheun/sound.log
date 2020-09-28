@@ -1,5 +1,5 @@
 import React from "react";
-import { RowWrapper, RowTrackWrapper } from "../wrapper/wrapper";
+import { RowWrapper, TracShowRowkWrapper } from "../wrapper/wrapper";
 import { TrackItem } from "../trackItem/trackItem";
 import sample from "../../images/8.jpeg";
 import { SectionTitle, ItemTitle } from "../text/text";
@@ -23,7 +23,7 @@ export const TrackIndexRow = ({ tracks }) => {
         <SectionTitle>TRACKS</SectionTitle>
         <ItemTitle big>Tracks you can enjoy</ItemTitle>
       </TextContainer>
-      <RowTrackWrapper>{mapped}</RowTrackWrapper>
+      <TracShowRowkWrapper>{mapped}</TracShowRowkWrapper>
       <Line />
     </RowWrapper>
   );
