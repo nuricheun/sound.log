@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  PageWrapper,
   CenterWrapper,
   TopWrapper,
   ButtomWrapper,
@@ -10,10 +9,10 @@ import {
 } from "../wrapper/wrapper";
 import show_bg from "../../images/show_background.jpg";
 import { TrackImage } from "../trackImage/trackImage";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { TitleSpan } from "../text/text";
 import { TextContainer } from "../text/textContainer";
-import PlayButton from "../playButton/playButton";
+import { OrangePlayButton } from "../playButton/playButton";
 import { Comment } from "../comment/comment";
 import { CommentForm } from "../comment/commentForm";
 import { MiniProfile } from "../miniprofile/miniprofile";
@@ -70,35 +69,33 @@ export const TrackShow = ({ fetchTrack, track, trackId, playbar }) => {
   }
 
   return (
-    <PageWrapper>
-      <CenterWrapper>
-        <TopWrapper show img={show_bg}>
-          <TopLeftDiv>
-            <PlayButton track={track} />
-            <TextContainer>
-              <TitleSpan>{track.username}</TitleSpan>
-              <TitleSpan big>{track.title}</TitleSpan>
-            </TextContainer>
-          </TopLeftDiv>
-          <TrackImage img={track.track_image} />
-        </TopWrapper>
-        <ButtomWrapper>
-          <BottomLeftSection>
-            <CommentForm />
-            <BottomRowSection left={true}>
-              <MiniProfile artist={track} />
-              <CommentSection>
-                <BottomBorderDiv>Comments</BottomBorderDiv>
-                {mapped}
-              </CommentSection>
-            </BottomRowSection>
-          </BottomLeftSection>
-          <VerticalLine />
-          <BottomRightSection>
-            <ColumnSection title={"Related tracks"}>{mapped}</ColumnSection>
-          </BottomRightSection>
-        </ButtomWrapper>
-      </CenterWrapper>
-    </PageWrapper>
+    <CenterWrapper>
+      <TopWrapper show img={show_bg}>
+        <TopLeftDiv>
+          <OrangePlayButton track={track} />
+          <TextContainer>
+            <TitleSpan>{track.username}</TitleSpan>
+            <TitleSpan big>{track.title}</TitleSpan>
+          </TextContainer>
+        </TopLeftDiv>
+        <TrackImage img={track.track_image} />
+      </TopWrapper>
+      <ButtomWrapper>
+        <BottomLeftSection>
+          <CommentForm />
+          <BottomRowSection left={true}>
+            <MiniProfile artist={track} />
+            <CommentSection>
+              <BottomBorderDiv>Comments</BottomBorderDiv>
+              {mapped}
+            </CommentSection>
+          </BottomRowSection>
+        </BottomLeftSection>
+        <VerticalLine />
+        <BottomRightSection>
+          <ColumnSection title={"Related tracks"}>{mapped}</ColumnSection>
+        </BottomRightSection>
+      </ButtomWrapper>
+    </CenterWrapper>
   );
 };

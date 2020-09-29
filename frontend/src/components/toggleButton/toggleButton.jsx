@@ -124,12 +124,7 @@ const ToggleMenu = function MenuListComposition({ signout }) {
                     onKeyDown={handleListKeyDown}
                     className={classes.menuList}
                   >
-                    <CustomMenuItem onClick={handleClose}>
-                      Profile
-                    </CustomMenuItem>
-                    <CustomMenuItem onClick={handleClose}>
-                      My account
-                    </CustomMenuItem>
+                    <CustomMenuItem onClick={handleClose}>About</CustomMenuItem>
                     <CustomMenuItem onClick={handleSignout}>
                       Logout
                     </CustomMenuItem>

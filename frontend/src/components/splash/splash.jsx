@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  PageWrapper,
   CenterTopBarWrapper,
   CenterWrapper,
   TopWrapper,
@@ -37,27 +36,25 @@ const Splash = ({ fetchAllTracks, tracks }) => {
   const mapped = tracks.map((e) => <TrackItem track={e} />);
 
   return (
-    <PageWrapper>
-      <CenterWrapper>
-        <TopWrapper img={main_img}>
-          <CenterTopBarWrapper>
-            <ButtonWrapper>LOGO</ButtonWrapper>
-            <ButtonWrapper>
-              <SignInButton text={"Sign in"} />
-            </ButtonWrapper>
-            <ButtonWrapper>
-              <SignInButton text={"Create account"} />
-            </ButtonWrapper>
-          </CenterTopBarWrapper>
-        </TopWrapper>
-        <MiddleWrapper>
-          <SectionTitle>
-            Hear what’s trending for free in the Sound.Log community
-          </SectionTitle>
-        </MiddleWrapper>
-        <ButtomWrapper>{mapped}</ButtomWrapper>
-      </CenterWrapper>
-    </PageWrapper>
+    <CenterWrapper>
+      <TopWrapper img={main_img}>
+        <CenterTopBarWrapper>
+          <ButtonWrapper>LOGO</ButtonWrapper>
+          <ButtonWrapper>
+            <SignInButton text={"Sign in"} />
+          </ButtonWrapper>
+          <ButtonWrapper>
+            <SignInButton text={"Create account"} />
+          </ButtonWrapper>
+        </CenterTopBarWrapper>
+      </TopWrapper>
+      <MiddleWrapper>
+        <SectionTitle>
+          Hear what’s trending for free in the Sound.Log community
+        </SectionTitle>
+      </MiddleWrapper>
+      <ButtomWrapper>{mapped}</ButtomWrapper>
+    </CenterWrapper>
   );
 };
 

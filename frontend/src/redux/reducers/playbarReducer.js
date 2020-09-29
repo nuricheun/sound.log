@@ -1,14 +1,14 @@
 import { PLAY, PAUSE } from "../actions/playbarAction";
-
 import merge from "lodash/merge";
 
 const defaultState = {
-  currentTrack: { track_id: "" },
+  currentTrack: { track_id: "", title: "" },
   isPlaying: false,
   currentTime: 0,
 };
 
 export const playbarReducer = (state = defaultState, action) => {
+  Object.freeze(state);
   const audio = document.getElementsByClassName("audio-player");
   const { currentTrack, isPlaying } = state;
 

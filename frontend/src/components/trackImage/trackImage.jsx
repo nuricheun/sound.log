@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { PlayButton } from "../playButton/playButton";
+import { PlayButton } from "../playButton/orangePlayButton";
 
 export const TrackImage = styled.div`
   object-fit: cover;

@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchAllTracks: () => dispatch(fetchAllTracks()),
 });
 
-export const TrackIndex = ({ tracks, fetchAllTracks }) => {
+export const Library = ({ tracks, fetchAllTracks }) => {
   const [isLoading, setLoading] = React.useState(true);
   React.useEffect(() => {
     fetchAllTracks().then(() => setLoading((pre) => !pre));
@@ -33,4 +33,4 @@ export const TrackIndex = ({ tracks, fetchAllTracks }) => {
   return <CenterWrapper>{mappedRows}</CenterWrapper>;
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TrackIndex);
+export default connect(mapStateToProps, mapDispatchToProps)(Library);

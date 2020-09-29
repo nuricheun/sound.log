@@ -1,7 +1,7 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+
 import styled, { css } from "styled-components";
-import { RowSection, ColSection } from "../wrapper/wrapper";
+import { RowSection, ColSection, CenterWrapper } from "../wrapper/wrapper";
 import { TrackImage } from "../trackImage/trackImage";
 import {
   BasicForm,
@@ -14,22 +14,6 @@ import {
   BasicSelect,
 } from "../form/basicForm";
 import { useForm } from "react-hook-form";
-import { connect } from "react-redux";
-import { fetchAllGenres } from "../../redux/actions/genreAction";
-import { createTrack } from "../../redux/actions/trackAction";
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    genres: state.genres,
-    artist_id: state.user.userId,
-    history: ownProps.history,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  fetchAllGenres: () => dispatch(fetchAllGenres()),
-  createTrack: (track) => dispatch(createTrack(track)),
-});
 
 const TrackFormContainer = styled.div`
   display: flex;
@@ -93,7 +77,7 @@ const TrackFormTitleDiv = styled(TitleDiv)`
   margin-bottom: 30px;
 `;
 
-const TrackUploadForm = ({
+export const TrackUploadForm = ({
   fetchAllGenres,
   genres,
   createTrack,
@@ -133,52 +117,50 @@ const TrackUploadForm = ({
   };
 
   return (
-    <TrackFormContainer>
-      <TrackFormTitleDiv>
-        <TitleP>Basic Info</TitleP>
-      </TrackFormTitleDiv>
-      <RowSection>
-        <TrackLeftContainer>
-          <TrackImagePreview img={imgData} />
-        </TrackLeftContainer>
-        <TrackForm onSubmit={handleSubmit(onSubmit)}>
-          <BasicInputLabel>Title</BasicInputLabel>
-          <BasicFormInput name="title" ref={register({ required: true })} />
-          <BasicInputLabel>Genre</BasicInputLabel>
-          <BasicSelect name="genre" ref={register({ required: true })}>
-            <option value="none" selected disabled>
-              ------Select------
-            </option>
-            {genres.length &&
-              genres.map((e) => <option value={e.genre_id}>{e.type}</option>)}
-          </BasicSelect>
-          <BasicInputLabel>Description</BasicInputLabel>
-          <BasicTextArea
-            name="description"
-            reg={register({ required: true })}
-          />
-          <BasicInputLabel>
-            Audio
-            <FileInput name="audio" ref={register({ required: true })} />
-          </BasicInputLabel>
-          <BasicInputLabel>
-            Image
-            <FileInput
-              name="image"
-              ref={register({ required: false })}
-              onChange={onChangePicture}
+    <CenterWrapper>
+      <TrackFormContainer>
+        <TrackFormTitleDiv>
+          <TitleP>Basic Info</TitleP>
+        </TrackFormTitleDiv>
+        <RowSection>
+          <TrackLeftContainer>
+            <TrackImagePreview img={imgData} />
+          </TrackLeftContainer>
+          <TrackForm onSubmit={handleSubmit(onSubmit)}>
+            <BasicInputLabel>Title</BasicInputLabel>
+            <BasicFormInput name="title" ref={register({ required: true })} />
+            <BasicInputLabel>Genre</BasicInputLabel>
+            <BasicSelect name="genre" ref={register({ required: true })}>
+              <option value="none" selected disabled>
+                ------Select------
+              </option>
+              {genres.length &&
+                genres.map((e) => <option value={e.genre_id}>{e.type}</option>)}
+            </BasicSelect>
+            <BasicInputLabel>Description</BasicInputLabel>
+            <BasicTextArea
+              name="description"
+              reg={register({ required: true })}
             />
-          </BasicInputLabel>
-          <ButtonWrapper>
-            <SubmitButton cancel={`cancel`}>Cancel</SubmitButton>
-            <SubmitButton value="submit">Submit</SubmitButton>
-          </ButtonWrapper>
-        </TrackForm>
-      </RowSection>
-    </TrackFormContainer>
+            <BasicInputLabel>
+              Audio
+              <FileInput name="audio" ref={register({ required: true })} />
+            </BasicInputLabel>
+            <BasicInputLabel>
+              Image
+              <FileInput
+                name="image"
+                ref={register({ required: false })}
+                onChange={onChangePicture}
+              />
+            </BasicInputLabel>
+            <ButtonWrapper>
+              <SubmitButton cancel={`cancel`}>Cancel</SubmitButton>
+              <SubmitButton value="submit">Submit</SubmitButton>
+            </ButtonWrapper>
+          </TrackForm>
+        </RowSection>
+      </TrackFormContainer>
+    </CenterWrapper>
   );
 };
-
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(TrackUploadForm)
-);

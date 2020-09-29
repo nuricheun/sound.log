@@ -98,10 +98,10 @@ export const AuthModalForm = ({
       <FormDiv>
         <AuthForm onSubmit={handleSubmit(onSubmit)}>
           {modal !== "signin" && (
-            <>
+            <React.Fragment>
               <BasicInputLabel>Username</BasicInputLabel>
               <BasicFormInput name="username" ref={register()} />
-            </>
+            </React.Fragment>
           )}
           <BasicInputLabel>Email</BasicInputLabel>
           <BasicFormInput name="email" ref={register({ required: true })} />

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { TrackImage } from "../trackImage/trackImage";
 import { TextContainer } from "../text/textContainer";
 import { ItemTitle, GreyH6 } from "../text/text";
-import PlayButton from "../playButton/playButton";
+import { OrangePlayButton } from "../playButton/playButton";
 import { LikeButton } from "../button/likeButton";
 
 const TrackItemDiv = styled.div`
@@ -18,8 +18,8 @@ export const TrackItem = ({ track }) => {
   return (
     <TrackItemDiv>
       <TrackImage small img={track.track_image}>
-        <PlayButton small={true} track={track} />
-        <LikeButton />
+        <OrangePlayButton small={true} track={track} />
+        <LikeButton liked={true} />
       </TrackImage>
       <TextContainer>
         <ItemTitle>{track.title}</ItemTitle>

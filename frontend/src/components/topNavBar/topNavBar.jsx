@@ -37,7 +37,7 @@ const NavBarLink = styled(Link)`
   color: #ccc;
 `;
 
-const RightSection = materialStyled(Button)({
+export const RightSection = materialStyled(Button)({
   height: "100%",
   display: "flex",
   alignItems: "center",
@@ -102,16 +102,16 @@ export const TopNavBar = ({ currentUser, signout }) => {
           <Autocomplete />
         </Section>
         {!currentUser ? (
-          <>
+          <React.Fragment>
             <ButtonWrapper>
               <SignInButton text={"Sign in"} />
             </ButtonWrapper>
             <ButtonWrapper>
               <SignInButton text={"Create account"} />
             </ButtonWrapper>
-          </>
+          </React.Fragment>
         ) : (
-          <>
+          <React.Fragment>
             <RightSection>
               <NavBarLink to="/">
                 <GitHubIcon />
@@ -122,7 +122,7 @@ export const TopNavBar = ({ currentUser, signout }) => {
               &nbsp;
               <NavBarLink to="/">SLOWDIVE</NavBarLink>
             </RightSection>
-          </>
+          </React.Fragment>
         )}
         <RightSection>
           <NavBarLink to="/upload">Upload</NavBarLink>
