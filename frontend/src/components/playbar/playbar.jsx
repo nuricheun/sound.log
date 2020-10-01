@@ -8,15 +8,11 @@ import { BasicPlayButton } from "../playButton/playButton";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import { styled as materialStyled } from "@material-ui/core/styles";
-import { playTrack, pauseTrack } from "../../redux/actions/playbarAction";
+import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import { connect } from "react-redux";
 
 const mapStateToProps = ({ playbar }) => ({
   playbar,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  playTrack: (track) => dispatch(playTrack(track)),
 });
 
 const PlaybarButtonWrapper = materialStyled(Button)({
@@ -50,12 +46,13 @@ export const PlayBar = ({ playbar, playTrack }) => {
   const ref = React.useRef();
 
   React.useEffect(() => {
-    console.log(ref.current);
+    if (isPlaying && ref.current) {
+      ref.current.audioEl.current.play();
+    }
+    if (!isPlaying && ref.current) {
+      ref.current.audioEl.current.pause();
+    }
   });
-
-  if (isPlaying && ref.current) {
-    ref.current.audioEl.current.play();
-  }
 
   return (
     <NavBar>
@@ -69,16 +66,14 @@ export const PlayBar = ({ playbar, playTrack }) => {
         <PlaybarButtonWrapper>
           <SkipNextIcon />
         </PlaybarButtonWrapper>
-        <ReactAudioPlayer
-          controls
-          className={"audio-player"}
-          ref={ref}
-          src={playbar.currentTrack.audioUrl}
-        />
+        <ReactAudioPlayer ref={ref} src={playbar.currentTrack.audioUrl} />
         <ProgressBar>
           <Progress />
         </ProgressBar>
         {playbar.currentTrack.title}
+        <PlaybarButtonWrapper>
+          <VolumeDownIcon />
+        </PlaybarButtonWrapper>
       </MiddleNavWrapper>
     </NavBar>
   );
