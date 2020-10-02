@@ -24,7 +24,7 @@ router.get("/:trackId", async (req, res) => {
 
   try {
     const track = await pool.query(
-      `SELECT t.track_id as "trackId", t.title as title, t.track_file as "audioUrl", t.track_image as "imageUrl", u.user_id as "artistId", u.username as username, u.location as location, l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.track_id = l.track_id INNER JOIN users as u ON t.artist_id = u.user_id WHERE tracks.track_id = $1`,
+      `SELECT t.track_id as "trackId", t.title as title, t.genre as genre, t.description as description, t.track_file as "audioUrl", t.track_image as "imageUrl", u.user_id as "artistId", u.username as username, u.location as location, l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.track_id = l.track_id INNER JOIN users as u ON t.artist_id = u.user_id WHERE t.track_id = $1`,
       [trackId]
     );
     res.json(track.rows[0]);
@@ -79,6 +79,38 @@ router.delete("/:trackId", async (req, res) => {
   }
 });
 
+router.patch("/:trackId", trackUpload, async (req, res) => {
+  const { trackId } = req.params;
+  const { title, artist_id, genre, description } = req.body;
+  let image = req.files.filter((e) => e.fieldname === "image");
+  let audio = req.files.filter((e) => e.fieldname === "audio");
+
+  console.log(req.body, trackId);
+  try {
+    const oldTrack = await pool.query(
+      `SELECT t.track_id as "trackId", t.title as title, t.genre as genre, t.description as description, t.track_file as "audioUrl", t.track_image as "imageUrl", u.user_id as "artistId", u.username as username, u.location as location, l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.track_id = l.track_id INNER JOIN users as u ON t.artist_id = u.user_id WHERE t.track_id = $1`,
+      [trackId]
+    );
+
+    const track = await pool.query(
+      "UPDATE tracks SET title = $1, artist_id = $2, genre = $3, description = $4, track_file = $5, track_image = $6 WHERE track_id = $7",
+      [
+        title,
+        artist_id,
+        genre,
+        description,
+        (image.length > 0 && image[0].location) || oldTrack.rows[0].imageUrl,
+        (audio.length > 0 && audio[0].location) || oldTrack.rows[0].audioUrl,
+        trackId,
+      ]
+    );
+    res.json(track.rows[0]);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("server error");
+  }
+});
+
 //create a track data using multer and multer-s3
 router.post("/", trackUpload, async function (req, res, next) {
   const { title, genre, artist_id, description } = req.body;
@@ -87,7 +119,7 @@ router.post("/", trackUpload, async function (req, res, next) {
 
   try {
     const newTrack = await pool.query(
-      "INSERT INTO tracks (title, artist_id, genre_id, description, track_image, track_file) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+      "INSERT INTO tracks (title, artist_id, genre, description, track_image, track_file) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
       [
         title,
         artist_id,

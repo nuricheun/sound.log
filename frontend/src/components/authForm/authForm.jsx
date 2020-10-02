@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
 import { Line } from "../trackIndexRow/trackIndexRow";
 import {
   BasicFormInput,
@@ -10,9 +9,6 @@ import {
   BasicButton,
 } from "../designSystem/basicForm";
 import { withRouter } from "react-router-dom";
-
-const mockEmail = "welcometosoundlog@gmail.com";
-const mockPassword = "hihi";
 
 const PurpleAuthButton = styled(BasicButton)`
   background-color: #dabfde;
@@ -82,20 +78,55 @@ export const AuthModalForm = ({
   history,
   closeModal,
 }) => {
-  const { register, handleSubmit } = useForm();
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    setPassword("");
+    setEmail("");
+    setUsername("");
+  }, [whichAuth]);
+
+  const submitRef = useRef();
+
+  const handleMockLogin = () => {
+    const mockEmail = "slowdive@gmail.com";
+    const mockPassword = "password";
+    let i = 0;
+    (function () {
+      let emailRef = setInterval(() => {
+        setEmail((pre) => pre + mockEmail[i]);
+        i++;
+        if (i === mockEmail.length) clearInterval(emailRef);
+      }, 100);
+    })();
+    (function () {
+      let j = 0;
+      let passwordRef = setInterval(() => {
+        setPassword((pre) => pre + mockPassword[j]);
+        j++;
+        if (j === mockPassword.length) clearInterval(passwordRef);
+      }, 100);
+    })();
+  };
 
   const submitAction = whichAuth === "signin" ? signin : registerUser;
 
-  const onSubmit = (data) => {
-    submitAction(data)
-      .then(() => history.push("/tracks"))
-      .then(() => closeModal());
-  };
   let title = whichAuth === "signin" ? "Sign in" : "Create account";
   let buttonText = "Continue";
   let optionText =
     whichAuth === "signin" ? "Join Sound.Log" : "Already have account";
   let switchModal = whichAuth === "signin" ? "register" : "signin";
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    submitAction({ email, username, password })
+      .then(() => history.push("/tracks"))
+      .then(() => closeModal());
+  };
+
   return (
     <AuthFormContainer big={whichAuth !== "signin"}>
       <TitleDiv>
@@ -105,31 +136,48 @@ export const AuthModalForm = ({
         <ErrorP>{err}</ErrorP>
       </ErrorDiv>
       <FormDiv>
-        <AuthForm onSubmit={handleSubmit(onSubmit)}>
+        <AuthForm onSubmit={handleSubmit}>
           {whichAuth !== "signin" && (
             <React.Fragment>
               <BasicInputLabel>Username</BasicInputLabel>
-              <BasicFormInput name="username" ref={register()} />
+              <BasicFormInput
+                name="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
             </React.Fragment>
           )}
           <BasicInputLabel>Email</BasicInputLabel>
           <BasicFormInput
             name="email"
             type="email"
-            ref={register({ required: true })}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <BasicInputLabel>Password</BasicInputLabel>
           <BasicFormInput
+            type="button"
             name="password"
             type="password"
-            ref={register({ required: true })}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <br />
           <AuthButton type="submit">{buttonText}</AuthButton>
-          <PurpleAuthButton>Sign in with mock account</PurpleAuthButton>
+          <PurpleAuthButton
+            type="button"
+            onClick={() => {
+              handleSwitch({ type: "auth", data: switchModal }).then(() =>
+                handleMockLogin()
+              );
+            }}
+          >
+            Sign in with mock account
+          </PurpleAuthButton>
           <br />
           <FormLine />
           <AuthButton
+            type="button"
             onClick={() => handleSwitch({ type: "auth", data: switchModal })}
           >
             {optionText}

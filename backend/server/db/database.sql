@@ -68,7 +68,7 @@ INSERT INTO genres (type) VALUES ('Instrumental');
 
 INSERT INTO users (email, username, password) VALUES ('slowdive@gmail.com', 'slowdive', '123456789', 'Reading, UK');
 
-
+"UPDATE tracks SET title = $1, artist_id = $2, genre = $3, description = $4, track_file = $5, track_image = $6 WHERE track_id = $7"
 
 
 

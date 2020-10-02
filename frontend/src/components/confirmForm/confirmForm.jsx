@@ -11,8 +11,6 @@ const ConfirmationForm = styled(BasicForm)`
   border-radius: 10px;
 `;
 
-const DeleteButton = styled(CustomButton)``;
-
 const ConfirmTitle = styled(TitleP)`
   color: #fff;
   font-size: 24px;

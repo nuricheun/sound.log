@@ -6,6 +6,7 @@ import Modal from "./components/authModal/authModal";
 import ConfirmModal from "./components/confirmModal/deleteConfirmModal";
 import Library from "./components/library/library";
 import TrackUploadForm from "./components/trackForm/trackUploadForm.container";
+import TrackEditForm from "./components/trackForm/trackEditForm.container";
 import TrackIndex from "./components/trackIndex/trackIndex";
 import TrackShow from "./components/trackShow/trackShow.container";
 import PlayBar from "./components/playbar/playbar";
@@ -26,6 +27,11 @@ function App() {
           <ProtectedRoute path="/library" component={Library} />
           <ProtectedRoute exact path="/tracks" component={TrackIndex} />
           <ProtectedRoute exact path="/tracks/:trackId" component={TrackShow} />
+          <ProtectedRoute
+            exact
+            path="/tracks/:trackId/edit"
+            component={TrackEditForm}
+          />
           <Redirect from="/:sth" to="/" />
           <PlayBar />
         </PageWrapper>

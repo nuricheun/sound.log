@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { NavBar } from "../designSystem/navbar";
 import ReactAudioPlayer from "react-audio-player";
 import SkipNextIcon from "@material-ui/icons/SkipNext";
@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import { styled as materialStyled } from "@material-ui/core/styles";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
+import VolumeMuteIcon from "@material-ui/icons/VolumeMute";
 import { connect } from "react-redux";
 
 const mapStateToProps = ({ playbar }) => ({
@@ -41,11 +42,11 @@ const Progress = styled.span`
   z-index: 2;
 `;
 
-export const PlayBar = ({ playbar, playTrack }) => {
+export const PlayBar = ({ playbar }) => {
   const { isPlaying, currentTrack, currentTime } = playbar;
-  const ref = React.useRef();
+  const ref = useRef();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isPlaying && ref.current) {
       ref.current.audioEl.current.play();
     }
@@ -61,12 +62,12 @@ export const PlayBar = ({ playbar, playTrack }) => {
           <SkipPreviousIcon />
         </PlaybarButtonWrapper>
         <PlaybarButtonWrapper>
-          <BasicPlayButton track={playbar.currentTrack} />
+          <BasicPlayButton track={currentTrack} />
         </PlaybarButtonWrapper>
         <PlaybarButtonWrapper>
           <SkipNextIcon />
         </PlaybarButtonWrapper>
-        <ReactAudioPlayer ref={ref} src={playbar.currentTrack.audioUrl} />
+        <ReactAudioPlayer ref={ref} src={currentTrack.audioUrl} />
         <ProgressBar>
           <Progress />
         </ProgressBar>

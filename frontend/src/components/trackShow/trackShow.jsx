@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   CenterWrapper,
-  TopWrapper,
   ButtomWrapper,
   ColSection,
   VerticalLine,
@@ -17,6 +16,8 @@ import { Comment } from "../comment/comment";
 import { CommentForm } from "../comment/commentForm";
 import { MiniProfile } from "../miniprofile/miniprofile";
 import { ColumnSection } from "../columnSection/columnSection";
+import EditIcon from "@material-ui/icons/Edit";
+import { Link } from "react-router-dom";
 
 const mocks = [
   { username: "nuri joen", content: "it was really awesome!" },
@@ -56,30 +57,55 @@ const CommentSection = styled(ColSection)`
   margin-left: 40px;
 `;
 
+const TrackShowTopWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 350px;
+  width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+  justify-content: space-between;
+  background-image: url(${(props) => props.img});
+  position: relative;
+`;
+
+const IconWrapper = styled.div`
+  position: absolute;
+  left: 2.5%;
+  bottom: 3%;
+`;
+
 const RelatedTrackSection = styled(ColSection)``;
 
-export const TrackShow = ({ fetchTrack, track, trackId, playbar }) => {
-  const [isLoading, setLoading] = React.useState(true);
-  React.useEffect(() => {
+export const TrackShow = ({ fetchTrack, track, userId, trackId }) => {
+  const [isLoading, setLoading] = useState(true);
+  useEffect(() => {
     fetchTrack(trackId).then(() => setLoading(false));
   }, []);
 
   if (isLoading) {
     return null;
   }
-
+  console.log(track);
   return (
     <CenterWrapper>
-      <TopWrapper show img={show_bg}>
+      <TrackShowTopWrapper img={show_bg}>
         <TopLeftDiv>
           <OrangePlayButton track={track} />
           <TextContainer>
             <TitleSpan>{track.username}</TitleSpan>
             <TitleSpan big>{track.title}</TitleSpan>
+            {track.artistId === userId && (
+              <Link to={`/tracks/${track.trackId}/edit`}>
+                <IconWrapper>
+                  <EditIcon />
+                </IconWrapper>
+              </Link>
+            )}
           </TextContainer>
         </TopLeftDiv>
-        <TrackImage img={track.track_image} />
-      </TopWrapper>
+        <TrackImage img={track.imageUrl} />
+      </TrackShowTopWrapper>
       <ButtomWrapper>
         <BottomLeftSection>
           <CommentForm />

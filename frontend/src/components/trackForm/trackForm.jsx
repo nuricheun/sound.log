@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import styled, { css } from "styled-components";
 import { RowSection, ColSection, CenterWrapper } from "../wrapper/wrapper";
@@ -80,15 +80,20 @@ const TrackFormTitleDiv = styled(TitleDiv)`
 
 export const TrackUploadForm = ({
   fetchAllGenres,
+  handleTrackSubmit,
+  fetchTrack,
   genres,
-  createTrack,
   artist_id,
   history,
+  track,
+  trackId,
+  formType,
 }) => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
 
   //for image preview
-  const [imgData, setImgData] = React.useState(null);
+  const [imgData, setImgData] = useState(null);
+  const [isLoading, setLoading] = useState(true);
 
   const onChangePicture = (e) => {
     if (e.target.files[0]) {
@@ -100,21 +105,33 @@ export const TrackUploadForm = ({
     }
   };
 
-  React.useEffect(() => {
-    fetchAllGenres();
+  useEffect(() => {
+    if (formType === "Edit") {
+      fetchAllGenres()
+        .then(() => fetchTrack(trackId))
+        .then(() => setLoading(false));
+    } else {
+      fetchAllGenres().then(() => setLoading(false));
+    }
   }, []);
 
+  if (isLoading) return null;
+
   const onSubmit = async (data) => {
+    console.log(data);
     const formData = new FormData();
     formData.append("title", data.title);
-    formData.append("artist_id", "7d980ac7-dd7b-4762-a58f-d64159551aa1");
+    formData.append("artist_id", artist_id);
     formData.append("genre", data.genre);
     formData.append("description", data.description);
-    formData.append("audio", data.audio[0]);
-    formData.append("image", data.image[0]);
-    createTrack(formData).then((res) =>
-      history.push(`/tracks/:${res.track.track_id}`)
-    );
+    if (data.audio[0]) {
+      console.log(data.audio[0]);
+      formData.append("audio", data.audio[0]);
+    }
+    if (data.image[0]) {
+      formData.append("image", data.image[0]);
+    }
+    handleTrackSubmit(formData, trackId).then((res) => history.push(`/tracks`));
   };
 
   return (
@@ -125,27 +142,38 @@ export const TrackUploadForm = ({
         </TrackFormTitleDiv>
         <RowSection>
           <TrackLeftContainer>
-            <TrackImagePreview img={imgData} />
+            <TrackImagePreview img={track.imageUrl || imgData} />
           </TrackLeftContainer>
           <TrackForm onSubmit={handleSubmit(onSubmit)}>
             <BasicInputLabel>Title</BasicInputLabel>
-            <BasicFormInput name="title" ref={register({ required: true })} />
+            <BasicFormInput
+              name="title"
+              ref={register({ required: true })}
+              defaultValue={track ? track.title : ""}
+            />
             <BasicInputLabel>Genre</BasicInputLabel>
-            <BasicSelect name="genre" ref={register({ required: true })}>
-              <option value="none" selected disabled>
+            <BasicSelect
+              name="genre"
+              ref={register({ required: true })}
+              defaultValue={track ? track.genre : ""}
+            >
+              <option selected disabled>
                 ------Select------
               </option>
               {genres.length &&
-                genres.map((e) => <option value={e.genre_id}>{e.type}</option>)}
+                genres.map((e) => (
+                  <option defaultValue={e.type}>{e.type}</option>
+                ))}
             </BasicSelect>
             <BasicInputLabel>Description</BasicInputLabel>
             <BasicTextArea
               name="description"
               reg={register({ required: true })}
+              defaultValue={track ? track.description : ""}
             />
             <BasicInputLabel>
               Audio
-              <FileInput name="audio" ref={register({ required: true })} />
+              <FileInput name="audio" ref={register({ required: false })} />
             </BasicInputLabel>
             <BasicInputLabel>
               Image

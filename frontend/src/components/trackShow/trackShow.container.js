@@ -1,13 +1,21 @@
 import { connect } from "react-redux";
 import { TrackShow } from "./trackShow";
 import { fetchTrack } from "../../redux/actions/trackAction";
-import { play, pause } from "../../redux/actions/playbarAction";
 
-const mapStateToProps = (state, ownProps) => ({
-  track: state.tracks[ownProps.match.params.trackId],
-  trackId: ownProps.match.params.trackId,
-  playbar: state.playbar,
-});
+const mapStateToProps = (
+  { tracks, currentUser: { userId } },
+  {
+    match: {
+      params: { trackId },
+    },
+  }
+) => {
+  return {
+    track: tracks[trackId],
+    userId,
+    trackId,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
   fetchTrack: (trackId) => dispatch(fetchTrack(trackId)),

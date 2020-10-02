@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { CenterWrapper } from "../wrapper/wrapper";
 import { TrackIndexRow } from "../trackIndexRow/trackIndexRow";
@@ -14,8 +14,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export const TrackIndex = ({ tracks, fetchAllTracks }) => {
-  const [isLoading, setLoading] = React.useState(true);
-  React.useEffect(() => {
+  const [isLoading, setLoading] = useState(true);
+  useEffect(() => {
     fetchAllTracks().then(() => setLoading((pre) => !pre));
   }, []);
 

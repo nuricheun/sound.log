@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   CenterWrapper,
   TopWrapper,
@@ -56,9 +56,9 @@ const Wrapper = styled(PageWrapper)`
 `;
 
 const Splash = ({ fetchAllTracks, tracks }) => {
-  const [isLoading, setLoading] = React.useState(true);
+  const [isLoading, setLoading] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchAllTracks().then(() => setLoading(false));
   }, []);
 

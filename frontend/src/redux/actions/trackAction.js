@@ -52,7 +52,7 @@ export const createTrack = (track) => (dispatch) =>
 
 export const updateTrack = (track, id) => (dispatch) => {
   return APIUtil.updateTrack(track, id).then(
-    (track) => dispatch(receiveTrack(track)),
+    (res) => dispatch(receiveTrack(res.data)),
     (err) => dispatch(receiveErrors(err.responseJSON))
   );
 };

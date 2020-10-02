@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { TrackItemButtonDiv } from "../designSystem/button";
-import { deleteTrack } from "../../redux/actions/trackAction";
 import { openModal } from "../../redux/actions/modalAction";
 import { connect } from "react-redux";
 

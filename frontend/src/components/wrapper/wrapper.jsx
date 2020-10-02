@@ -18,7 +18,7 @@ export const ButtonWrapper = styled.div`
 
 export const CenterWrapper = styled.div`
   display: flex;
-  padding-top: 60px;
+  padding-top: 50px;
   padding-bottom: 80px;
   flex-direction: column;
   align-items: center;
@@ -31,18 +31,11 @@ export const CenterWrapper = styled.div`
 export const TopWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 500px;
+  height: 600px;
   width: 100%;
   padding: 15px;
   box-sizing: border-box;
   background-image: url(${(props) => props.img});
-  ${(props) =>
-    props.show &&
-    css`
-      flex-direction: row;
-      height: 350px;
-      justify-content: space-between;
-    `}
 `;
 
 export const MiddleWrapper = styled.div`

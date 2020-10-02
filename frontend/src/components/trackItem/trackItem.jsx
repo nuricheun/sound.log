@@ -6,6 +6,7 @@ import { ItemTitle, GreyH6 } from "../text/text";
 import { OrangePlayButton } from "../playButton/playButton";
 import LikeButton from "../likeButton/likeButton";
 import DeleteButton from "../deleteButton/deleteButton";
+import { Link } from "react-router-dom";
 
 const TrackItemDiv = styled.div`
   display: flex;
@@ -19,11 +20,13 @@ const TrackItemDiv = styled.div`
 export const TrackItem = ({ track }) => {
   return (
     <TrackItemDiv>
-      <TrackImage small img={track.imageUrl}>
-        <OrangePlayButton small={true} track={track} />
-        <DeleteButton track={track}/>
-        <LikeButton liked={!!track.likedByUser} trackId={track.trackId} />
-      </TrackImage>
+      <Link to={`/tracks/${track.trackId}`}>
+        <TrackImage small img={track.imageUrl}>
+          <OrangePlayButton small={true} track={track} />
+          <DeleteButton track={track} />
+          <LikeButton liked={!!track.likedByUser} trackId={track.trackId} />
+        </TrackImage>
+      </Link>
       <TextContainer>
         <ItemTitle>{track.title}</ItemTitle>
         <GreyH6>{track.username}</GreyH6>
