@@ -2,30 +2,38 @@ import React from "react";
 import styled from "styled-components";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { TrackItemButtonDiv } from "../designSystem/button";
-import { likeTrack } from "../../redux/actions/trackAction";
+
+import {
+  fetchLikeByUserId,
+  deleteLikeByUserId,
+} from "../../redux/actions/likeAction";
 import { connect } from "react-redux";
 
-const mapStateToProps = ({ currentUser: { userId } }, { liked, trackId }) => ({
+const mapStateToProps = ({ currentUser: { userId } }, { trackId, liked }) => ({
   userId,
-  liked,
   trackId,
+  liked,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  likeTrack: (payload) => dispatch(likeTrack(payload)),
+  likeTrack: (userId, trackId) => dispatch(fetchLikeByUserId(userId, trackId)),
+  unlikeTrack: (userId, trackId) =>
+    dispatch(deleteLikeByUserId(userId, trackId)),
 });
 
 const LikeButtonDiv = styled(TrackItemButtonDiv)`
   right: 0;
   bottom: 0;
+  z-index: 9;
 `;
 
-const LikeButton = ({ liked, likeTrack, trackId, userId }) => {
+const LikeButton = ({ likeTrack, trackId, userId, liked, unlikeTrack }) => {
+  const action = liked ? unlikeTrack : likeTrack;
   return (
     <LikeButtonDiv>
       <FavoriteIcon
         style={{ color: liked ? "red" : "black" }}
-        onClick={() => likeTrack({ userId, trackId })}
+        onClick={() => action(userId, trackId)}
       />
     </LikeButtonDiv>
   );

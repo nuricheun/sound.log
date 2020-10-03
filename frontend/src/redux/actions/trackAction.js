@@ -36,8 +36,8 @@ export const fetchAllTracks = () => (dispatch) =>
     (err) => dispatch(receiveErrors(err.responseJSON))
   );
 
-export const fetchTrack = (id) => (dispatch) =>
-  APIUtil.fetchTrack(id).then(
+export const fetchTrack = (trackId) => (dispatch) =>
+  APIUtil.fetchTrack(trackId).then(
     (res) => dispatch(receiveTrack(res.data)),
     (err) => dispatch(receiveErrors(err.responseJSON))
   );
@@ -62,6 +62,3 @@ export const deleteTrack = (id) => (dispatch) =>
     (res) => dispatch(removeTrack(res.data)),
     (err) => dispatch(receiveErrors(err.responseJSON))
   );
-
-export const likeTrack = (payload) => (dispatch) =>
-  APIUtil.likeTrack(payload).then((res) => dispatch(receiveTrack(res.data)));

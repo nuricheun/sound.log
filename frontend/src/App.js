@@ -37,7 +37,7 @@ function App() {
             path="/tracks/:trackId/edit"
             component={TrackEditForm}
           />
-          <FooterDiv />
+          
           <PlayBar />
         </PageWrapper>
       </Switch>

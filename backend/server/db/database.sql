@@ -29,11 +29,10 @@ CREATE TABLE tracks(
 
 CREATE TABLE comments(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user uuid REFERENCES users(id) ON DELETE CASCADE,
-    track uuid REFERENCES tracks(id) ON DELETE CASCADE,
+    user_id uuid REFERENCES users(id) ON DELETE CASCADE,
+    track_id uuid REFERENCES tracks(id) ON DELETE CASCADE,
     body TEXT NOT NULL,
-    create_at DATE NOT NULL DEFAULT NOW(),
-    updated_at DATE NOT NULL DEFAULT NOW()
+    create_at DATE NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE likes(

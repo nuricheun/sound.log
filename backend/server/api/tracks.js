@@ -12,9 +12,8 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const tracks = await pool.query(
-      `SELECT t.id as "trackId", t.title as title, t.audio as "audioUrl", t.image as "imageUrl", u.id as "artistId", u.username as username, u.location as location, l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.id = l.track INNER JOIN users as u ON t.artist = u.id`
+      `SELECT t.id as "trackId", t.title as title, t.audio as "audioUrl", t.image as "imageUrl", u.id as "artistId", u.username as username, u.location as location FROM tracks as t INNER JOIN users as u ON t.artist = u.id ORDER BY t.created_at DESC`
     );
-
     res.json(tracks.rows);
   } catch (err) {
     res.status(500).send("server error");
@@ -29,43 +28,9 @@ router.get("/:trackId", async (req, res) => {
 
   try {
     const track = await pool.query(
-      `SELECT t.id as "trackId", t.title as title, t.genre as genre, t.description as description, t.audio as "audioUrl", t.image as "imageUrl", u.id as "artistId", u.username as username, u.location as location, l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.id = l.track INNER JOIN users as u ON t.artist = u.id WHERE t.id = $1`,
+      `SELECT t.id as "trackId", t.title as title, t.audio as "audioUrl", t.image as "imageUrl", u.id as "artistId", u.username as username, u.location as location FROM tracks as t INNER JOIN users as u ON t.artist = u.id WHERE t.id = $1`,
       [trackId]
     );
-    res.json(track.rows[0]);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send("server error");
-  }
-});
-
-/**
- * fetch a track by trackId
- */
-router.get("/:trackId/:userId", async (req, res) => {
-  const { trackId, userId } = req.params;
-  try {
-    const likedByCurrentUser = await pool.query(
-      "SELECT * FROM likes WHERE liked_by=$1 AND track=$2",
-      [userId, trackId]
-    );
-    if (likedByCurrentUser.rows.length > 0) {
-      await pool.query("DELETE FROM likes WHERE liked_by=$1 AND track=$2", [
-        userId,
-        trackId,
-      ]);
-    } else {
-      await pool.query("INSERT INTO likes (liked_by, track) VALUES ($1, $2)", [
-        userId,
-        trackId,
-      ]);
-    }
-
-    const track = await pool.query(
-      `SELECT t.id as "trackId", t.title as title, t.track_file as "audioUrl", t.image as "imageUrl", u.id as "artistId", u.username as username, u.location as location, l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.id = l.track INNER JOIN users as u ON t.artist = u.id WHERE l.liked_by=$1 AND t.id=$2`,
-      [userId, trackId]
-    );
-
     res.json(track.rows[0]);
   } catch (err) {
     console.log(err);

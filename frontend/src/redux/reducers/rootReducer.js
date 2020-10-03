@@ -5,6 +5,7 @@ import { trackReducer } from "./trackReducer";
 import { genreReducer } from "./genreReducer";
 import { modalReducer } from "./modalReducer";
 import { playbarReducer } from "./playbarReducer";
+import { likeReducer } from "./likeReducer";
 
 export const rootReducer = combineReducers({
   currentUser: authReducer,
@@ -12,4 +13,5 @@ export const rootReducer = combineReducers({
   tracks: trackReducer,
   genres: genreReducer,
   playbar: playbarReducer,
+  liked: likeReducer,
 });

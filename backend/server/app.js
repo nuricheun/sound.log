@@ -7,6 +7,8 @@ import bodyParser from "body-parser";
 import usersRouter from "./api/users";
 import tracksRouter from "./api/tracks";
 import genresRouter from "./api/genres";
+import commentsRouter from "./api/comments";
+import likesRouter from "./api/likes";
 
 const app = express();
 
@@ -19,5 +21,7 @@ app.use(cookieParser());
 app.use("/api/users", usersRouter);
 app.use("/api/tracks", tracksRouter);
 app.use("/api/genres", genresRouter);
+app.use("/api/comments", commentsRouter);
+app.use("/api/likes", likesRouter);
 
 module.exports = app;

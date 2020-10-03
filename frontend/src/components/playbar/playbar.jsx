@@ -28,18 +28,17 @@ const PlaybarButtonWrapper = materialStyled(Button)({
 });
 
 const ProgressBar = styled.div`
-  color: #fff;
-  width: 500px;
+  background-color: #fff;
+  width: 480px;
   height: 8px;
-  z-index: 3;
-  margin: 0 10px;
+  ${"" /* z-index: 3; */}
+  margin: 0 20px;
 `;
 
 const Progress = styled.span`
-  background-color: #444444;
+  background-color: #fff;
   height: 8px;
   display: inline-block;
-  z-index: 2;
 `;
 
 export const PlayBar = ({ playbar }) => {
@@ -68,9 +67,7 @@ export const PlayBar = ({ playbar }) => {
           <SkipNextIcon />
         </PlaybarButtonWrapper>
         <ReactAudioPlayer ref={ref} src={currentTrack.audioUrl} />
-        <ProgressBar>
-          <Progress />
-        </ProgressBar>
+        <ProgressBar>{/* <Progress /> */}</ProgressBar>
         {playbar.currentTrack.title}
         <PlaybarButtonWrapper>
           <VolumeDownIcon />
