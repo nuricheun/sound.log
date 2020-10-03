@@ -1,70 +1,24 @@
 import React, { useEffect, useState } from "react";
 
-import styled, { css } from "styled-components";
-import { RowSection, ColSection, CenterWrapper } from "../wrapper/wrapper";
-import { TrackImage } from "../trackImage/trackImage";
+import styled from "styled-components";
+import { RowSection, CenterWrapper } from "../wrapper/wrapper";
+
 import {
-  BasicForm,
-  TitleDiv,
   TitleP,
+  WideForm,
+  FileInput,
+  BasicSelect,
+  SubmitButton,
+  FormTitleDiv,
+  FormContainer,
+  BasicTextArea,
   BasicFormInput,
   BasicInputLabel,
-  BasicTextArea,
-  BasicButton,
-  BasicSelect,
+  FormImagePreview,
+  FormLeftContainer,
+  FormWarningSpan,
 } from "../designSystem/basicForm";
 import { useForm } from "react-hook-form";
-
-const TrackFormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 90%;
-  padding: 25px 30px;
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  background-color: #fff;
-
-  height: 600px;
-`;
-
-const TrackLeftContainer = styled(ColSection)`
-  display: flex;
-  align-items: center;
-  width: 40%;
-`;
-
-const TrackForm = styled(BasicForm)`
-  width: 60%;
-  padding: 20px;
-  align-items: flex-start;
-`;
-
-const TrackImagePreview = styled(TrackImage)`
-  width: 260px;
-  height: 260px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-`;
-
-const FileInput = styled.input.attrs({
-  type: "file",
-})`
-  margin-left: 10px;
-`;
-
-const SubmitButton = styled(BasicButton)`
-  width: 80px;
-  height: 30px;
-  font-size: 15px;
-  margin-left: 5px;
-  ${(props) =>
-    props.cancel &&
-    css`
-      color: #999;
-      background-color: #fff;
-      border: 1px solid #999;
-    `}
-`;
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -73,25 +27,20 @@ const ButtonWrapper = styled.div`
   flex-direction: row;
 `;
 
-const TrackFormTitleDiv = styled(TitleDiv)`
-  margin-bottom: 30px;
-  justify-content: flex-start;
-`;
-
 export const TrackUploadForm = ({
   fetchAllGenres,
   handleTrackSubmit,
   fetchTrack,
   genres,
-  artist_id,
+  artist,
   history,
   track,
   trackId,
   formType,
 }) => {
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, errors } = useForm();
 
-  //for image preview
+  //image preview hook
   const [imgData, setImgData] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
@@ -121,7 +70,7 @@ export const TrackUploadForm = ({
     console.log(data);
     const formData = new FormData();
     formData.append("title", data.title);
-    formData.append("artist_id", artist_id);
+    formData.append("artist", artist);
     formData.append("genre", data.genre);
     formData.append("description", data.description);
     if (data.audio[0]) {
@@ -136,50 +85,60 @@ export const TrackUploadForm = ({
 
   return (
     <CenterWrapper>
-      <TrackFormContainer>
-        <TrackFormTitleDiv>
+      <FormContainer>
+        <FormTitleDiv>
           <TitleP>Basic Info</TitleP>
-        </TrackFormTitleDiv>
+        </FormTitleDiv>
         <RowSection>
-          <TrackLeftContainer>
-            <TrackImagePreview img={track.imageUrl || imgData} />
-          </TrackLeftContainer>
-          <TrackForm onSubmit={handleSubmit(onSubmit)}>
+          <FormLeftContainer>
+            <FormImagePreview img={(track && track.imageUrl) || imgData} />
+          </FormLeftContainer>
+          <WideForm onSubmit={handleSubmit(onSubmit)}>
             <BasicInputLabel>Title</BasicInputLabel>
             <BasicFormInput
               name="title"
               ref={register({ required: true })}
               defaultValue={track ? track.title : ""}
             />
+            {errors.title && errors.title.type === "required" && (
+              <FormWarningSpan>Title is required</FormWarningSpan>
+            )}
             <BasicInputLabel>Genre</BasicInputLabel>
             <BasicSelect
               name="genre"
               ref={register({ required: true })}
               defaultValue={track ? track.genre : ""}
             >
-              <option selected disabled>
-                ------Select------
-              </option>
+              <option disabled>------Select------</option>
               {genres.length &&
                 genres.map((e) => (
                   <option defaultValue={e.type}>{e.type}</option>
                 ))}
             </BasicSelect>
+            {errors.genre && errors.genre.type === "required" && (
+              <FormWarningSpan>Genre is required</FormWarningSpan>
+            )}
             <BasicInputLabel>Description</BasicInputLabel>
             <BasicTextArea
               name="description"
-              reg={register({ required: true })}
+              ref={register({ required: true })}
               defaultValue={track ? track.description : ""}
             />
             <BasicInputLabel>
               Audio
-              <FileInput name="audio" ref={register({ required: false })} />
+              <FileInput
+                name="audio"
+                ref={register({ required: formType !== "Edit" })}
+              />
             </BasicInputLabel>
+            {errors.audio && errors.audio.type === "required" && (
+              <FormWarningSpan>Audio is required</FormWarningSpan>
+            )}
             <BasicInputLabel>
               Image
               <FileInput
                 name="image"
-                ref={register({ required: false })}
+                ref={register()}
                 onChange={onChangePicture}
               />
             </BasicInputLabel>
@@ -187,9 +146,9 @@ export const TrackUploadForm = ({
               <SubmitButton cancel={`cancel`}>Cancel</SubmitButton>
               <SubmitButton value="submit">Submit</SubmitButton>
             </ButtonWrapper>
-          </TrackForm>
+          </WideForm>
         </RowSection>
-      </TrackFormContainer>
+      </FormContainer>
     </CenterWrapper>
   );
 };

@@ -20,3 +20,11 @@ export const signin = (user) => (dispatch) =>
 
 export const signout = () => (dispatch) =>
   APIUtil.signout().then(() => dispatch(signoutCurrentUser()));
+
+export const fetchUser = (userId) => (dispatch) =>
+  APIUtil.fetchUser(userId).then((res) => dispatch(setCurrentUser(res.data)));
+
+export const updateUser = (user, id) => (dispatch) =>
+  APIUtil.updateUser(user, id).then((res) =>
+    dispatch(setCurrentUser(res.data))
+  );

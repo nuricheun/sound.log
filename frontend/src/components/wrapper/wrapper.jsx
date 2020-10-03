@@ -24,7 +24,7 @@ export const CenterWrapper = styled.div`
   align-items: center;
   width: 90%;
   max-width: 1240px;
-  min-width: 600px;
+  min-width: 900px;
   background-color: #fff;
 `;
 
@@ -66,12 +66,12 @@ export const RowWrapper = styled.div`
   justify-content: space-around;
   width: 100%;
   height: flex;
-  padding: 0px 25px;
+  padding: 5px 25px;
   background-color: #fff;
   box-sizing: border-box;
 `;
 
-export const TrackShowRowkWrapper = styled.div`
+export const RowkWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -141,4 +141,16 @@ export const BottomBorderDiv = styled.div`
   height: 30px;
 
   border-bottom: 1px solid #f2f2f2;
+`;
+
+export const ShowTopWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 350px;
+  width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+  justify-content: space-between;
+  background-image: url(${(props) => props.img});
+  position: relative;
 `;

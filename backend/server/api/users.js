@@ -1,7 +1,7 @@
 import express from "express";
-
+import { updateUserById } from "../utils/queries/users";
 import validation from "../middleware/validations";
-
+import { upload } from "../middleware/multer";
 import bcrypt from "bcryptjs";
 import pool from "../db/db";
 import dotenv from "dotenv";
@@ -9,9 +9,24 @@ import { jwtGenerator } from "../utils/jwtGenerator";
 import authorization from "../middleware/authorization";
 
 dotenv.config();
+
+const userUpload = upload.any();
 const router = express.Router();
 
-//user registeration
+router.get("/:userId", async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await pool.query("SELECT * FROM users WHERE id=$1", [userId]);
+    return res.json(user.rows[0]);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server error");
+  }
+});
+
+/**
+ * user sign up
+ */
 router.post("/", async (req, res) => {
   const { username, email, password, location } = req.body;
 
@@ -33,7 +48,7 @@ router.post("/", async (req, res) => {
     );
 
     const newUser = await pool.query(
-      `SELECT user_id as "userId", username, location, email FROM users WHERE email = $1`,
+      `SELECT id as "userId", username, location, email FROM users WHERE email = $1`,
       [email]
     );
 
@@ -45,21 +60,15 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.delete("/", async (req, res) => {
-  try {
-    return res.send("success");
-  } catch (err) {
-    res.status(500).send("Server error");
-  }
-});
-
-//user signin
+/**
+ * user sign in email and password
+ */
 router.post("/signin", async (req, res) => {
   const { email, password } = req.body;
 
   try {
     const user = await pool.query(
-      `SELECT user_id as "userId", username, location, email, password FROM users WHERE email = $1`,
+      `SELECT id as "userId", username, location, email, password FROM users WHERE email = $1`,
       [email]
     );
 
@@ -82,11 +91,45 @@ router.post("/signin", async (req, res) => {
   }
 });
 
+/**
+ * user profile update by userId
+ */
+
+router.patch("/:userId", userUpload, async (req, res) => {
+  const { userId } = req.params;
+  let [updateQuery, values] = updateUserById(userId, req.body, req.files);
+  console.log(updateQuery);
+
+  try {
+    const user = await pool.query(updateQuery, values);
+    res.json(user.rows[0]);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("server error");
+  }
+});
+
+/**
+ * verify user's jwt token
+ */
+
 router.get("/is-verify", authorization, async (req, res) => {
   try {
     res.json(true);
   } catch (err) {
     res.status(500).send("Server Error");
+  }
+});
+
+/**
+ * delete user
+ */
+
+router.delete("/", async (req, res) => {
+  try {
+    return res.send("success");
+  } catch (err) {
+    res.status(500).send("Server error");
   }
 });
 

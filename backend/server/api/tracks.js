@@ -1,15 +1,18 @@
 import express from "express";
 import { upload } from "../middleware/multer";
+import { updateTrackById } from "../utils/queries/tracks";
 import pool from "../db/db";
 
-const router = express.Router();
 const trackUpload = upload.any();
+const router = express.Router();
 
-//fetch all tracks from db
+/**
+ * fetch all tracks
+ */
 router.get("/", async (req, res) => {
   try {
     const tracks = await pool.query(
-      `SELECT t.track_id as "trackId", t.title as title, t.track_file as "audioUrl", t.track_image as "imageUrl", u.user_id as "artistId", u.username as username, u.location as location, l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.track_id = l.track_id INNER JOIN users as u ON t.artist_id = u.user_id`
+      `SELECT t.id as "trackId", t.title as title, t.audio as "audioUrl", t.image as "imageUrl", u.id as "artistId", u.username as username, u.location as location, l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.id = l.track INNER JOIN users as u ON t.artist = u.id`
     );
 
     res.json(tracks.rows);
@@ -18,13 +21,15 @@ router.get("/", async (req, res) => {
   }
 });
 
-//fetch one track from db
+/**
+ * fetch a track by trackId
+ */
 router.get("/:trackId", async (req, res) => {
   const { trackId } = req.params;
 
   try {
     const track = await pool.query(
-      `SELECT t.track_id as "trackId", t.title as title, t.genre as genre, t.description as description, t.track_file as "audioUrl", t.track_image as "imageUrl", u.user_id as "artistId", u.username as username, u.location as location, l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.track_id = l.track_id INNER JOIN users as u ON t.artist_id = u.user_id WHERE t.track_id = $1`,
+      `SELECT t.id as "trackId", t.title as title, t.genre as genre, t.description as description, t.audio as "audioUrl", t.image as "imageUrl", u.id as "artistId", u.username as username, u.location as location, l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.id = l.track INNER JOIN users as u ON t.artist = u.id WHERE t.id = $1`,
       [trackId]
     );
     res.json(track.rows[0]);
@@ -34,27 +39,30 @@ router.get("/:trackId", async (req, res) => {
   }
 });
 
+/**
+ * fetch a track by trackId
+ */
 router.get("/:trackId/:userId", async (req, res) => {
   const { trackId, userId } = req.params;
   try {
     const likedByCurrentUser = await pool.query(
-      "SELECT * FROM likes WHERE liked_by=$1 AND track_id=$2",
+      "SELECT * FROM likes WHERE liked_by=$1 AND track=$2",
       [userId, trackId]
     );
     if (likedByCurrentUser.rows.length > 0) {
-      await pool.query("DELETE FROM likes WHERE liked_by=$1 AND track_id=$2", [
+      await pool.query("DELETE FROM likes WHERE liked_by=$1 AND track=$2", [
         userId,
         trackId,
       ]);
     } else {
-      await pool.query(
-        "INSERT INTO likes (liked_by, track_id) VALUES ($1, $2)",
-        [userId, trackId]
-      );
+      await pool.query("INSERT INTO likes (liked_by, track) VALUES ($1, $2)", [
+        userId,
+        trackId,
+      ]);
     }
 
     const track = await pool.query(
-      `SELECT t.track_id as "trackId", t.title as title, t.track_file as "audioUrl", t.track_image as "imageUrl", u.user_id as "artistId", u.username as username, u.location as location, l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.track_id = l.track_id INNER JOIN users as u ON t.artist_id = u.user_id WHERE l.liked_by=$1 AND t.track_id=$2`,
+      `SELECT t.id as "trackId", t.title as title, t.track_file as "audioUrl", t.image as "imageUrl", u.id as "artistId", u.username as username, u.location as location, l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.id = l.track INNER JOIN users as u ON t.artist = u.id WHERE l.liked_by=$1 AND t.id=$2`,
       [userId, trackId]
     );
 
@@ -65,11 +73,14 @@ router.get("/:trackId/:userId", async (req, res) => {
   }
 });
 
+/**
+ * delete a track by trackId
+ */
 router.delete("/:trackId", async (req, res) => {
   const { trackId } = req.params;
 
   try {
-    const deleted = await pool.query("DELETE FROM tracks WHERE track_id=$1", [
+    const deleted = await pool.query("DELETE FROM tracks WHERE id=$1", [
       trackId,
     ]);
 
@@ -79,31 +90,16 @@ router.delete("/:trackId", async (req, res) => {
   }
 });
 
+/**
+ * patch(update) a track data by trackId
+ */
 router.patch("/:trackId", trackUpload, async (req, res) => {
   const { trackId } = req.params;
-  const { title, artist_id, genre, description } = req.body;
-  let image = req.files.filter((e) => e.fieldname === "image");
-  let audio = req.files.filter((e) => e.fieldname === "audio");
+  const [updateQuery, values] = updateTrackById(trackId, req.body, req.files);
 
-  console.log(req.body, trackId);
+  console.log(updateQuery, values);
   try {
-    const oldTrack = await pool.query(
-      `SELECT t.track_id as "trackId", t.title as title, t.genre as genre, t.description as description, t.track_file as "audioUrl", t.track_image as "imageUrl", u.user_id as "artistId", u.username as username, u.location as location, l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.track_id = l.track_id INNER JOIN users as u ON t.artist_id = u.user_id WHERE t.track_id = $1`,
-      [trackId]
-    );
-
-    const track = await pool.query(
-      "UPDATE tracks SET title = $1, artist_id = $2, genre = $3, description = $4, track_file = $5, track_image = $6 WHERE track_id = $7",
-      [
-        title,
-        artist_id,
-        genre,
-        description,
-        (image.length > 0 && image[0].location) || oldTrack.rows[0].imageUrl,
-        (audio.length > 0 && audio[0].location) || oldTrack.rows[0].audioUrl,
-        trackId,
-      ]
-    );
+    const track = await pool.query(updateQuery, values);
     res.json(track.rows[0]);
   } catch (err) {
     console.log(err);
@@ -112,27 +108,20 @@ router.patch("/:trackId", trackUpload, async (req, res) => {
 });
 
 //create a track data using multer and multer-s3
-router.post("/", trackUpload, async function (req, res, next) {
-  const { title, genre, artist_id, description } = req.body;
+router.post("/", trackUpload, async function (req, res) {
+  const { title, genre, artist, description } = req.body;
   const image = req.files.filter((e) => e.fieldname === "image");
   const audio = req.files.filter((e) => e.fieldname === "audio");
 
   try {
     const newTrack = await pool.query(
-      "INSERT INTO tracks (title, artist_id, genre, description, track_image, track_file) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-      [
-        title,
-        artist_id,
-        genre,
-        description,
-        image[0].location,
-        audio[0].location,
-      ]
+      "INSERT INTO tracks (title, artist, genre, description, image, audio) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+      [title, artist, genre, description, image[0].location, audio[0].location]
     );
 
     const track = await pool.query(
-      "SELECT tracks.*, users.* FROM tracks INNER JOIN users ON users.user_id = tracks.artist_id WHERE users.user_id = $1",
-      [artist_id]
+      "SELECT tracks.*, users.* FROM tracks INNER JOIN users ON users.id = tracks.artist WHERE users.id = $1",
+      [artist]
     );
     res.json(track.rows[0]);
   } catch (err) {

@@ -1,4 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { ColSection } from "../wrapper/wrapper";
+import { TrackImage } from "../trackImage/trackImage";
 
 export const BasicFormInput = styled.input`
   background-color: #fff;
@@ -6,7 +8,7 @@ export const BasicFormInput = styled.input`
   display: flex;
   width: 100%;
   height: 25px;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
@@ -44,6 +46,7 @@ export const BasicInputLabel = styled.label`
   padding: 0 5px;
   text-align: left;
   margin-bottom: 3px;
+  margin-top: 5px;
 `;
 
 export const BasicForm = styled.form`
@@ -106,4 +109,71 @@ export const BasicSelect = styled.select`
 
 export const BasicOption = styled.option`
   background-color: #fff;
+`;
+
+export const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  padding: 25px 30px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  background-color: #fff;
+  margin-top: 20px;
+  height: 630px;
+`;
+
+export const FileInput = styled.input.attrs({
+  type: "file",
+})`
+  margin-left: 10px;
+`;
+
+export const WideForm = styled(BasicForm)`
+  width: 60%;
+  padding: 20px;
+  align-items: flex-start;
+`;
+
+export const SubmitButton = styled(BasicButton)`
+  width: 80px;
+  height: 30px;
+  font-size: 15px;
+  margin-left: 5px;
+  ${(props) =>
+    props.cancel &&
+    css`
+      color: #999;
+      background-color: #fff;
+      border: 1px solid #999;
+    `}
+`;
+
+export const FormLeftContainer = styled(ColSection)`
+  align-items: center;
+  width: 40%;
+`;
+
+export const FormImagePreview = styled(TrackImage)`
+  width: 260px;
+  height: 260px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+`;
+
+export const FormTitleDiv = styled(TitleDiv)`
+  margin-bottom: 30px;
+  justify-content: flex-start;
+`;
+
+export const ProfileImage = styled(TrackImage)`
+  border-radius: 50%;
+  margin-bottom: 10px;
+  border: 1px solid #fefefe;
+`;
+
+export const FormWarningSpan = styled.span`
+  font-size: 12px;
+  color: red;
+  margin-left: 2px;
 `;

@@ -107,7 +107,7 @@ export const TopNavBar = ({ currentUser }) => {
             <RightSection>
               <AccountCircleIcon />
               &nbsp;
-              <NavBarLink to="/">{currentUser.username}</NavBarLink>
+              <NavBarLink to="/you">{currentUser.username}</NavBarLink>
             </RightSection>
           </React.Fragment>
         )}

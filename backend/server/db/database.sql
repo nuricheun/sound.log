@@ -1,7 +1,7 @@
 CREATE DATABASE sound_log;
 
 CREATE TABLE users(
-    user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     email VARCHAR(255) UNIQUE NOT NULL,
     username VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) UNIQUE NOT NULL,
@@ -11,43 +11,42 @@ CREATE TABLE users(
 );
 
 CREATE TABLE genres(
-    genre_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     type VARCHAR(255) NOT NULL
 ); 
 
 CREATE TABLE tracks(
-    track_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     title VARCHAR(255) NOT NULL,
-    artist_id uuid REFERENCES users(user_id) ON DELETE CASCADE,
-    genre_id uuid REFERENCES genres(genre_id) ON DELETE CASCADE,
+    artist uuid REFERENCES users(id) ON DELETE CASCADE,
+    genre uuid REFERENCES genres(genre) ON DELETE CASCADE,
     description TEXT,
-    track_image VARCHAR(255),
-    track_file VARCHAR(255),
+    image VARCHAR(255),
+    audio VARCHAR(255),
     created_at DATE NOT NULL DEFAULT NOW(),
     updated_at DATE NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE comments(
-    comment_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id uuid REFERENCES users(user_id) ON DELETE CASCADE,
-    track_id uuid REFERENCES tracks(track_id) ON DELETE CASCADE,
+    id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user uuid REFERENCES users(id) ON DELETE CASCADE,
+    track uuid REFERENCES tracks(id) ON DELETE CASCADE,
     body TEXT NOT NULL,
     create_at DATE NOT NULL DEFAULT NOW(),
     updated_at DATE NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE likes(
-    like_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id uuid REFERENCES users(user_id) ON DELETE CASCADE,
-    track_id uuid REFERENCES tracks(track_id) ON DELETE CASCADE
+    id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user uuid REFERENCES users(id) ON DELETE CASCADE,
+    track uuid REFERENCES tracks(track) ON DELETE CASCADE
 );
 
-/* ADD  ? WITH INDEX ON TRACKS?*/
 
 CREATE TABLE playlists(
-    playlist_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     title VARCHAR(100) NOT NULL,
-    user_id uuid REFERENCES users(user_id) ON DELETE CASCADE,
+    user uuid REFERENCES users(id) ON DELETE CASCADE,
     imageURL VARCHAR(255),
     created_at DATE NOT NULL DEFAULT NOW()
 );
@@ -68,11 +67,9 @@ INSERT INTO genres (type) VALUES ('Instrumental');
 
 INSERT INTO users (email, username, password) VALUES ('slowdive@gmail.com', 'slowdive', '123456789', 'Reading, UK');
 
-"UPDATE tracks SET title = $1, artist_id = $2, genre = $3, description = $4, track_file = $5, track_image = $6 WHERE track_id = $7"
+SELECT t.id as "trackId", t.title as "title", t.track_file as "audioUrl", t.image as "imageUrl", u.id as "userId", u.username as "username", u.location as "location", l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.id = l.track INNER JOIN users as u ON t.artist = u.id
+SELECT t.id as "trackId", t.title as "title", t.track_file as "audioUrl", t.image as "imageUrl", u.id as "userId", u.username as "username", u.location as "location", l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.id = l.track INNER JOIN users as u ON t.artist = u.id WHERE l.liked_by = '4745af93-761a-4ca0-b015-04c5820f36ca'; 
 
-
-
-SELECT t.track_id as "trackId", t.title as "title", t.track_file as "audioUrl", t.track_image as "imageUrl", u.user_id as "userId", u.username as "username", u.location as "location", l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.track_id = l.track_id INNER JOIN users as u ON t.artist_id = u.user_id
 
 DROP TABLE genres;
 DROP TABLE comments;
@@ -81,5 +78,3 @@ DROP TABLE tracks;
 DROP TABLE users;
 
 
-
-SELECT t.track_id as "trackId", t.title as "title", t.track_file as "audioUrl", t.track_image as "imageUrl", u.user_id as "userId", u.username as "username", u.location as "location", l.liked_by as "likedByUser" FROM tracks as t LEFT JOIN likes as l ON t.track_id = l.track_id INNER JOIN users as u ON t.artist_id = u.user_id WHERE l.liked_by = '4745af93-761a-4ca0-b015-04c5820f36ca'; 

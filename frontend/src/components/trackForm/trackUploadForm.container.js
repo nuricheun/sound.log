@@ -8,7 +8,7 @@ const mapStateToProps = ({ genres, currentUser: { userId } }, { history }) => {
   return {
     genres,
     history,
-    artist_id: userId,
+    artist: userId,
     formType: "New",
   };
 };

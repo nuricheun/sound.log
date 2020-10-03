@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { CenterWrapper, TrackShowRowkWrapper } from "../wrapper/wrapper";
+import { CenterWrapper, RowkWrapper } from "../wrapper/wrapper";
 import { LibraryNavBar } from "./libaryNavBar";
 import { TrackItem } from "../trackItem/trackItem";
 import { connect } from "react-redux";
@@ -50,10 +50,10 @@ const Library = ({ tracks, fetchAllTracks, currentUser, currentPath }) => {
       <LibraryNavBar currentPath={currentPath} />
       {!currentTracks.length && (
         <React.Fragment>
-          <TrackShowRowkWrapper />
+          <RowkWrapper />
         </React.Fragment>
       )}
-      <TrackShowRowkWrapper>{mapped}</TrackShowRowkWrapper>
+      <RowkWrapper>{mapped}</RowkWrapper>
     </CenterWrapper>
   );
 };

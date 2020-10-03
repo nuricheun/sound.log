@@ -2,6 +2,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchAllGenres } from "../../redux/actions/genreAction";
 import { updateTrack, fetchTrack } from "../../redux/actions/trackAction";
+
 import { TrackUploadForm } from "./trackForm";
 
 const mapStateToProps = (
@@ -17,7 +18,7 @@ const mapStateToProps = (
   return {
     genres,
     history,
-    artist_id: userId,
+    artist: userId,
     formType: "Edit",
     trackId,
     track: tracks[trackId],

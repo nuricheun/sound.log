@@ -5,6 +5,7 @@ import {
   ColSection,
   VerticalLine,
   BottomBorderDiv,
+  ShowTopWrapper,
 } from "../wrapper/wrapper";
 import show_bg from "../../images/show_background.jpg";
 import { TrackImage } from "../trackImage/trackImage";
@@ -86,7 +87,7 @@ export const TrackShow = ({ fetchTrack, track, userId, trackId }) => {
   if (isLoading) {
     return null;
   }
-  console.log(track);
+
   return (
     <CenterWrapper>
       <TrackShowTopWrapper img={show_bg}>

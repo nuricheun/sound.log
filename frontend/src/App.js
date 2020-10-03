@@ -13,6 +13,9 @@ import PlayBar from "./components/playbar/playbar";
 import { ProtectedRoute, AuthRoute } from "./util/routeUtil";
 import { PageWrapper } from "./components/wrapper/wrapper";
 import TopNavBar from "./components/topNavBar/topNavBar";
+import UserProfile from "./components/user/profile.container";
+import UserEditForm from "./components/user/profileEditForm.container";
+import { Footer } from "./components/footer/footer";
 
 function App() {
   return (
@@ -25,6 +28,8 @@ function App() {
           <AuthRoute exact path="/" component={Splash} />
           <ProtectedRoute exact path="/upload" component={TrackUploadForm} />
           <ProtectedRoute path="/library" component={Library} />
+          <ProtectedRoute exact path="/you" component={UserProfile} />
+          <ProtectedRoute exact path="/you/edit" component={UserEditForm} />
           <ProtectedRoute exact path="/tracks" component={TrackIndex} />
           <ProtectedRoute exact path="/tracks/:trackId" component={TrackShow} />
           <ProtectedRoute
@@ -32,7 +37,7 @@ function App() {
             path="/tracks/:trackId/edit"
             component={TrackEditForm}
           />
-          <Redirect from="/:sth" to="/" />
+          <FooterDiv />
           <PlayBar />
         </PageWrapper>
       </Switch>
