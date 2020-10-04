@@ -33,13 +33,13 @@ const AuthFormContainer = styled.div`
 
 const FormDiv = styled.div`
   width: 100%;
-  height: 100%;
+  min-height: 510px;
   padding: 15px;
   box-sizing: border-box;
 `;
 
 const AuthForm = styled(BasicForm)`
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const AuthButton = styled(BasicButton)`
@@ -68,6 +68,7 @@ export const AuthModalForm = ({
     setPassword("");
     setEmail("");
     setUsername("");
+    validate([true]);
   }, [whichAuth]);
 
   const handleMockLogin = () => {

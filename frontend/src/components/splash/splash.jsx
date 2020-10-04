@@ -13,7 +13,7 @@ import SignInButton from "../authModalButton/authModalButton";
 import { connect } from "react-redux";
 import { fetchAllTracks } from "../../redux/actions/trackAction";
 import styled from "styled-components";
-import { mainLogo } from "../designSystem/logo";
+import { MainLogo } from "../designSystem/logo";
 import main from "../../images/sp.gif";
 
 const mapStateToProps = ({ tracks }) => ({
@@ -29,7 +29,7 @@ export const SplashButtonwrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   width: inherit;
-  padding: 30px 25px;
+  padding: 35px 25px;
   box-sizing: border-box;
 `;
 
@@ -55,6 +55,18 @@ const Wrapper = styled(PageWrapper)`
   padding-top: 0;
 `;
 
+const SplashTitle = styled.p`
+  color: #fff;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-family: "Roboto", sans-serif;
+
+  background: -webkit-linear-gradient(#fff, #ffbae6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
+
 const Splash = ({ fetchAllTracks, tracks }) => {
   const [isLoading, setLoading] = useState(true);
 
@@ -74,7 +86,10 @@ const Splash = ({ fetchAllTracks, tracks }) => {
     <Wrapper>
       <SplashWrapper>
         <SplashImage>
-          <SplashButtonwrapper>{mainLogo}</SplashButtonwrapper>
+          <SplashButtonwrapper>
+            <MainLogo big={true} />
+          </SplashButtonwrapper>
+          <SplashTitle>Sound.log("So much music, so little time");</SplashTitle>
           <TempDiv src={main} />
           <SplashButtonwrapper>
             <ButtonWrapper>
