@@ -8,12 +8,14 @@ export const updateUserById = (userId, cols, files) => {
     values.push(cols[key]);
   });
 
-  files.forEach((file) => {
-    set.push(`${file.fieldname} = '${file.location}'`);
-  });
-
+  if (files) {
+    files.forEach((file) => {
+      set.push(`${file.fieldname} = '${file.location}'`);
+    });
+  }
   query.push(set.join(", "));
   query.push(`WHERE id = '${userId}' RETURNING id as "userId"`);
   const updateQuery = query.join(" ");
+  console.log(updateQuery, "?");
   return [updateQuery, values];
 };

@@ -3,24 +3,25 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-//this middleware will on continue on if the token is inside the local storage
+/**
+ * check user's authorization through jwt token from req.header
+ *
+ */
 
 export default (req, res, next) => {
-  // Get token from header
-  const token = req.header("jwt_token");
-
-  // Check if not token
-  if (!token) {
+  const jwtToken = req.header("jwtToken");
+  console.log(jwtToken);
+  if (!jwtToken) {
     return res.status(403).json({ msg: "authorization denied" });
   }
 
   // Verify token
   try {
-    //it is going to give use the user id (user:{id: user.id})
-    const payload = jwt.verify(token, process.env.JWT_KEY);
-    req.user = payload.user;
+    const payload = jwt.verify(jwtToken, process.env.JWT_KEY);
+
+    req.userId = payload.user.userId;
     next();
   } catch (err) {
-    res.status(401).json({ msg: "Token is not valid" });
+    res.status(401).json("Not Authorized");
   }
 };

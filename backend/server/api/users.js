@@ -13,14 +13,18 @@ dotenv.config();
 const router = express.Router();
 const userUpload = upload.any();
 
-router.get("/:userId", async (req, res) => {
-  const { userId } = req.params;
+/**
+ * getting user information
+ */
+router.get("/", authorization, async (req, res) => {
   try {
+    const { userId } = req;
+    // console.log(userId);
     const user = await pool.query(
-      `SELECT id as "userId", username, location, email, password, avatar FROM users WHERE id=$1`,
+      `SELECT id as "userId", username, location, email, avatar FROM users WHERE id=$1`,
       [userId]
     );
-    return res.json(user.rows[0]);
+    return res.send(user.rows[0]);
   } catch (err) {
     console.log(err);
     res.status(500).send("Server error");
@@ -30,7 +34,7 @@ router.get("/:userId", async (req, res) => {
 /**
  * user sign up
  */
-router.post("/", async (req, res) => {
+router.post("/", validation, async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
@@ -50,9 +54,9 @@ router.post("/", async (req, res) => {
       [username, email, bcryptPassword]
     );
 
-    const jwtToken = jwtGenerator(newUser.rows[0].id);
+    const jwtToken = jwtGenerator(newUser.rows[0].userId);
 
-    return res.json({ jwtToken, ...newUser.rows[0] });
+    return res.json({ jwtToken, user: newUser.rows[0] });
   } catch (err) {
     res.status(500).send("Server error");
   }
@@ -61,7 +65,7 @@ router.post("/", async (req, res) => {
 /**
  * user sign in email and password
  */
-router.post("/signin", async (req, res) => {
+router.post("/signin", validation, async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -83,7 +87,7 @@ router.post("/signin", async (req, res) => {
       return res.status(401).json("Invalid user information");
     }
     const jwtToken = jwtGenerator(user.rows[0].userId);
-    return res.json({ jwtToken, ...user.rows[0] });
+    return res.json({ jwtToken, user: user.rows[0] });
   } catch (err) {
     res.status(500).send("Server Error");
   }
@@ -93,17 +97,17 @@ router.post("/signin", async (req, res) => {
  * user profile update by userId
  */
 
-router.patch("/:userId", userUpload, async (req, res) => {
-  const { userId } = req.params;
+router.patch("/", authorization, userUpload, async (req, res) => {
+  const { userId } = req;
   let [updateQuery, values] = updateUserById(userId, req.body, req.files);
   console.log(req.files);
   console.log(updateQuery);
 
   try {
-    const updatedUser = await pool.query(updateQuery, values);
+    await pool.query(updateQuery, values);
     const user = await pool.query(
       `SELECT id as "userId", username, location, email, password, avatar FROM users WHERE id=$1`,
-      [updatedUser.rows[0].userId]
+      [userId]
     );
 
     res.json(user.rows[0]);
@@ -114,23 +118,11 @@ router.patch("/:userId", userUpload, async (req, res) => {
 });
 
 /**
- * verify user's jwt token
- */
-
-router.get("/is-verify", authorization, async (req, res) => {
-  try {
-    res.json(true);
-  } catch (err) {
-    res.status(500).send("Server Error");
-  }
-});
-
-/**
  * delete user
  */
 
-router.delete("/:userId", async (req, res) => {
-  const { userId } = req.params;
+router.delete("/", authorization, async (req, res) => {
+  const { userId } = req;
 
   try {
     const deletedUser = await pool.query(

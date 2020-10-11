@@ -3,6 +3,7 @@ import merge from "lodash/merge";
 
 const defaultState = {
   currentTrack: { trackId: "", title: "", audioUrl: "" },
+  played: {},
   isPlaying: false,
   currentTime: 0,
 };
@@ -15,7 +16,6 @@ export const playbarReducer = (state = defaultState, action) => {
       return merge({}, state, {
         currentTrack: action.track,
         isPlaying: true,
-        currentTime: action.track,
       });
 
     case PAUSE:
@@ -24,6 +24,7 @@ export const playbarReducer = (state = defaultState, action) => {
       return merge({}, state, {
         currentTrack: action.track,
       });
+
     default:
       return state;
   }

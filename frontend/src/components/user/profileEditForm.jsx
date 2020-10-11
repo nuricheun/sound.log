@@ -48,7 +48,7 @@ export const ProfileEditForm = ({
   };
 
   useEffect(() => {
-    fetchUser(currentUser.userId).then(() => setLoading(false));
+    fetchUser().then(() => setLoading(false));
   }, []);
 
   if (isLoading) return null;
@@ -60,11 +60,9 @@ export const ProfileEditForm = ({
     formData.append("location", data.location);
     formData.append("bio", data.bio);
     data.password && formData.append("password", data.password);
-    data.avatar && formData.append("avatar", data.avatar[0]);
+    data.avatar[0] && formData.append("avatar", data.avatar[0]);
 
-    updateUser(formData, currentUser.userId).then((res) =>
-      history.push(`/you`)
-    );
+    updateUser(formData).then((res) => history.push(`/you`));
   };
 
   return (

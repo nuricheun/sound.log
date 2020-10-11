@@ -7,7 +7,6 @@ import {
 } from "../wrapper/wrapper";
 import { Link } from "react-router-dom";
 import EditIcon from "@material-ui/icons/Edit";
-import { TrackImage } from "../trackImage/trackImage";
 import styled from "styled-components";
 import { TitleSpan } from "../text/text";
 import show_bg from "../../images/show_background.jpg";
@@ -46,7 +45,7 @@ const ProfileCol = styled(ColSection)`
 export const UserProfile = ({ fetchUser, currentUser }) => {
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-    fetchUser(currentUser.userId).then(() => setLoading(false));
+    fetchUser().then(() => setLoading(false));
   }, []);
   if (isLoading) {
     return null;

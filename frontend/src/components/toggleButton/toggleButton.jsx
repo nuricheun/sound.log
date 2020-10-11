@@ -9,10 +9,10 @@ import MenuList from "@material-ui/core/MenuList";
 import { makeStyles, styled } from "@material-ui/core/styles";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import { connect } from "react-redux";
-import { signoutCurrentUser } from "../../redux/actions/authAction";
+import { signout } from "../../redux/actions/authAction";
 
 const mapDispatchToProps = (dispatch) => ({
-  signout: () => dispatch(signoutCurrentUser()),
+  signout: () => dispatch(signout()),
 });
 
 const useStyles = makeStyles((theme) => ({

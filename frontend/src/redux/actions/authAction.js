@@ -13,15 +13,30 @@ export const signoutCurrentUser = () => ({
 });
 
 export const register = (user) => (dispatch) =>
-  APIUtil.register(user).then((res) => dispatch(setCurrentUser(res.data)));
+  APIUtil.register(user).then((res) => {
+    const { jwtToken, user } = res.data;
+    localStorage.setItem("jwtToken", jwtToken);
+    APIUtil.authToken(jwtToken);
+
+    dispatch(setCurrentUser(user));
+  });
 
 export const signin = (user) => (dispatch) =>
-  APIUtil.signin(user).then((res) => dispatch(setCurrentUser(res.data)));
+  APIUtil.signin(user).then((res) => {
+    const { jwtToken, user } = res.data;
+    localStorage.setItem("jwtToken", jwtToken);
+    APIUtil.authToken(jwtToken);
 
-export const fetchUser = (userId) => (dispatch) =>
-  APIUtil.fetchUser(userId).then((res) => dispatch(setCurrentUser(res.data)));
+    dispatch(setCurrentUser(user));
+  });
 
-export const updateUser = (user, id) => (dispatch) =>
-  APIUtil.updateUser(user, id).then((res) =>
-    dispatch(setCurrentUser(res.data))
-  );
+export const fetchUser = () => (dispatch) =>
+  APIUtil.fetchUser().then((res) => dispatch(setCurrentUser(res.data)));
+
+export const updateUser = (user) => (dispatch) =>
+  APIUtil.updateUser(user).then((res) => dispatch(setCurrentUser(res.data)));
+
+export const signout = () => (dispatch) => {
+  APIUtil.authToken(false);
+  dispatch(signoutCurrentUser());
+};

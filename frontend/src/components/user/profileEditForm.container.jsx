@@ -9,8 +9,8 @@ const mapStateToProps = ({ currentUser }, { history }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchUser: (userId) => dispatch(fetchUser(userId)),
-  updateUser: (user, id) => dispatch(updateUser(user, id)),
+  fetchUser: () => dispatch(fetchUser()),
+  updateUser: (user) => dispatch(updateUser(user)),
 });
 
 export default withRouter(

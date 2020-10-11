@@ -41,7 +41,7 @@ export const TrackIndex = ({
   }
 
   const trendyTracks = [];
-  Object.keys(tracks).forEach((e) => {
+  Object.keys(tracks).forEach((e, idx) => {
     if (tracks[e].trendy) {
       trendyTracks.push(tracks[e]);
     }
