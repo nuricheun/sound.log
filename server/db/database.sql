@@ -1,4 +1,4 @@
-CREATE DATABASE sound_log;
+-- CREATE DATABASE sound_log;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -66,12 +66,12 @@ INSERT INTO genres (type) VALUES ('House');
 INSERT INTO genres (type) VALUES ('Indie rock');
 INSERT INTO genres (type) VALUES ('Instrumental');
 
-INSERT INTO users (email, username, password, location) VALUES ('slowdive@gmail.com', 'Slowdive', 'passwordisslowdive', 'Reading, UK');
+-- INSERT INTO users (email, username, password, location) VALUES ('slowdive@gmail.com', 'Slowdive', 'passwordisslowdive', 'Reading, UK');
 
-DROP TABLE genres;
-DROP TABLE comments;
-DROP TABLE likes;
-DROP TABLE tracks;
-DROP TABLE users;
+-- DROP TABLE genres;
+-- DROP TABLE comments;
+-- DROP TABLE likes;
+-- DROP TABLE tracks;
+-- DROP TABLE users;
 
 
