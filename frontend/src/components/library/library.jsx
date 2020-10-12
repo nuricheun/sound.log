@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
-import { CenterWrapper, RowkWrapper } from "../designSystem/wrapper";
+import { CenterWrapper, RowTrackWrapper } from "../designSystem/wrapper";
 import { LibraryNavBar } from "./libaryNavBar";
 import { TrackItem } from "../trackItem/trackItem";
 import { connect } from "react-redux";
@@ -73,7 +73,7 @@ const Library = ({
           />
         </React.Fragment>
       ) : (
-        <RowkWrapper>{mapped}</RowkWrapper>
+        <RowTrackWrapper>{mapped}</RowTrackWrapper>
       )}
     </CenterWrapper>
   );

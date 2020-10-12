@@ -87,6 +87,7 @@ export const TrackShow = ({
 
   const mapped = Object.keys(comments).map((key) => (
     <Comment
+      key={key}
       username={comments[key].username}
       avatar={comments[key].avatar}
       content={comments[key].body}
@@ -122,7 +123,7 @@ export const TrackShow = ({
         </BottomLeftSection>
         <VerticalLine />
         <BottomRightSection>
-          <ColumnSection title={"Related tracks"}>{mapped}</ColumnSection>
+          <ColumnSection title={"Related tracks"}>{<></>}</ColumnSection>
         </BottomRightSection>
       </ButtomWrapper>
     </CenterWrapper>

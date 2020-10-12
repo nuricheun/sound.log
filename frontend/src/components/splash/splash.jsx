@@ -85,7 +85,7 @@ const Splash = ({ fetchAllTracks, tracks, openModal }) => {
   }
 
   const mapped = Object.keys(tracks).map((trackId) => (
-    <TrackItem track={tracks[trackId]} />
+    <TrackItem key={trackId} track={tracks[trackId]} />
   ));
 
   return (

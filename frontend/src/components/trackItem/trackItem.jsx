@@ -16,6 +16,7 @@ const TrackItemDiv = styled.div`
   justify-content: flex-start;
   margin-bottom: 15px;
   position: relative;
+  margin-right: 10px;
 `;
 
 export const TrackItem = ({ track }) => {

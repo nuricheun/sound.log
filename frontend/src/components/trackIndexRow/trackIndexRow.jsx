@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { RowWrapper, RowkWrapper } from "../designSystem/wrapper";
+import { RowWrapper, RowTrackWrapper } from "../designSystem/wrapper";
 import { TrackItem } from "../trackItem/trackItem";
 import { SectionTitle, ItemTitle } from "../designSystem/text";
 import { TextContainer } from "../designSystem/textContainer";
@@ -24,7 +24,7 @@ export const TrackIndexRow = ({ tracks, title, subTitle }) => {
         <SectionTitle>{title}</SectionTitle>
         <ItemTitle big>{subTitle}</ItemTitle>
       </TextContainer>
-      <RowkWrapper>{mapped}</RowkWrapper>
+      <RowTrackWrapper>{mapped}</RowTrackWrapper>
       <Line />
     </RowWrapper>
   );

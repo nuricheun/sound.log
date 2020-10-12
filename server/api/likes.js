@@ -6,7 +6,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const likes = await pool.query(
-      `SELECT track FROM likes GROUP BY track ORDER BY COUNT(track) LIMIT 10`
+      `SELECT track_id as track FROM likes GROUP BY track_id ORDER BY COUNT(track_id) LIMIT 10`
     );
 
     const trendyTracks = likes.rows.map((e) => e.track);
@@ -24,7 +24,7 @@ router.get("/:userId", async (req, res) => {
 
   try {
     const likes = await pool.query(
-      `SELECT track FROM likes WHERE liked_by=$1`,
+      `SELECT track_id as track FROM likes WHERE liked_by=$1`,
       [userId]
     );
 
@@ -42,12 +42,12 @@ router.get("/:userId/:trackId", async (req, res) => {
   const { userId, trackId } = req.params;
 
   try {
-    await pool.query(`INSERT INTO likes (liked_by, track) VALUES ($1, $2)`, [
+    await pool.query(`INSERT INTO likes (liked_by, track_id) VALUES ($1, $2)`, [
       userId,
       trackId,
     ]);
     const trendyTracks = await pool.query(
-      `SELECT track FROM likes WHERE liked_by=$1 AND track=$2`,
+      `SELECT track_id as track FROM likes WHERE liked_by=$1 AND track_id=$2`,
       [userId, trackId]
     );
 
@@ -63,7 +63,7 @@ router.delete("/:userId/:trackId", async (req, res) => {
 
   try {
     const trendyTracks = await pool.query(
-      `DELETE FROM likes WHERE liked_by=$1 AND track=$2`,
+      `DELETE FROM likes WHERE liked_by=$1 AND track_id=$2`,
       [userId, trackId]
     );
     res.json(trackId);

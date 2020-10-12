@@ -110,7 +110,9 @@ export const TrackUploadForm = ({
               <option disabled>------Select------</option>
               {genres.length &&
                 genres.map((e) => (
-                  <option defaultValue={e.type}>{e.type}</option>
+                  <option key={e.id} defaultValue={e.type}>
+                    {e.type}
+                  </option>
                 ))}
             </BasicSelect>
             {errors.genre && errors.genre.type === "required" && (

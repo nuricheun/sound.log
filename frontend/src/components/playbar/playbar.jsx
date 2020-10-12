@@ -10,16 +10,12 @@ import styled from "styled-components";
 import { styled as materialStyled } from "@material-ui/core/styles";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import VolumeMuteIcon from "@material-ui/icons/VolumeMute";
-import { playPrevTrack } from "../../redux/actions/playbarAction";
+
 import { connect } from "react-redux";
 
 const mapStateToProps = ({ playbar, tracks }) => ({
   playbar,
   tracks,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  // playPrevTrack: () => dispatch(playPrevTrack()),
 });
 
 const PlaybarButtonWrapper = materialStyled(Button)({
@@ -75,7 +71,7 @@ export const PlayBar = ({ playbar }) => {
         setCurrentTime((pre) => pre + 0.5);
       }, 500);
     }
-  }, [playingStatus, currentTime]);
+  }, [currentTime, playingStatus]);
 
   return (
     <NavBar>
@@ -110,4 +106,4 @@ export const PlayBar = ({ playbar }) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlayBar);
+export default connect(mapStateToProps)(PlayBar);

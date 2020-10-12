@@ -1,5 +1,7 @@
 CREATE DATABASE sound_log;
 
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE users(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -12,14 +14,14 @@ CREATE TABLE users(
 
 CREATE TABLE genres(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-    type VARCHAR(255) NOT NULL
+    type VARCHAR(255) UNIQUE NOT NULL
 ); 
 
 CREATE TABLE tracks(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     title VARCHAR(255) NOT NULL,
     artist uuid REFERENCES users(id) ON DELETE CASCADE,
-    genre uuid REFERENCES genres(genre) ON DELETE CASCADE,
+    genre VARCHAR(255) REFERENCES genres(type) ON DELETE CASCADE,
     description TEXT,
     image VARCHAR(255),
     audio VARCHAR(255),
@@ -37,8 +39,8 @@ CREATE TABLE comments(
 
 CREATE TABLE likes(
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user uuid REFERENCES users(id) ON DELETE CASCADE,
-    track uuid REFERENCES tracks(track) ON DELETE CASCADE
+    liked_by uuid REFERENCES users(id) ON DELETE CASCADE,
+    track_id uuid REFERENCES tracks(id) ON DELETE CASCADE
 );
 
 
@@ -64,7 +66,7 @@ INSERT INTO genres (type) VALUES ('House');
 INSERT INTO genres (type) VALUES ('Indie rock');
 INSERT INTO genres (type) VALUES ('Instrumental');
 
-INSERT INTO users (email, username, password) VALUES ('slowdive@gmail.com', 'slowdive', '123456789', 'Reading, UK');
+INSERT INTO users (email, username, password, location) VALUES ('slowdive@gmail.com', 'Slowdive', 'passwordisslowdive', 'Reading, UK');
 
 DROP TABLE genres;
 DROP TABLE comments;

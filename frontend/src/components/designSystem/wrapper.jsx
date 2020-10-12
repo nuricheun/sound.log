@@ -64,7 +64,7 @@ export const ButtomWrapper = styled.div`
 export const RowWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
   padding: 5px 25px;
   background-color: #fff;
@@ -72,11 +72,12 @@ export const RowWrapper = styled.div`
   min-height: 500px;
 `;
 
-export const RowkWrapper = styled.div`
+export const RowTrackWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-top: 20px;
 `;
 

@@ -18,12 +18,11 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('frontend/build'));
-    app.get('/', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
-    })
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("frontend/build"));
+  app.get("/", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+  });
 }
 
 app.use(cookieParser());
@@ -34,7 +33,7 @@ app.use("/api/genres", genresRouter);
 app.use("/api/comments", commentsRouter);
 app.use("/api/likes", likesRouter);
 
-app.get("*", (req, res)=>{
-    res.sendFile(path.join(__dirname, "client/build/index.html"))
-})
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend/build/index.html"));
+});
 module.exports = app;
