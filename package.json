@@ -4,8 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "nodemon --exec babel-node ./server/bin/www",
-    "build": "babel ./server --out-dir dist-server",
-    "heroku-postbuild": "cd frontend && yarn install && yarn run build"
+    "clean": "rm -rf build && mkdir build",
+    "build-babel": "babel -d ./build ./server -s",
+    "build": "yarn run clean && yarn run build-babel",
+    "heroku-postbuild": "cd frontend && yarn install && yarn run build",
+    "start": "node ./server/bin/www"
   },
   "engines": {
     "node": "12.8.0",
