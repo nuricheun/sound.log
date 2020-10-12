@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { CenterWrapper } from "../wrapper/wrapper";
+import { CenterWrapper } from "../designSystem/wrapper";
 import { TrackIndexRow } from "../trackIndexRow/trackIndexRow";
 import { connect } from "react-redux";
 import { fetchAllTracks } from "../../redux/actions/trackAction";

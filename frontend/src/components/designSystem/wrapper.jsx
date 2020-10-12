@@ -25,7 +25,7 @@ export const CenterWrapper = styled.div`
   width: 90%;
   max-width: 1240px;
   min-width: 900px;
-  min-height: 600px;
+  min-height: 900px;
   background-color: #fff;
 `;
 
@@ -66,10 +66,10 @@ export const RowWrapper = styled.div`
   flex-direction: column;
   justify-content: space-around;
   width: 100%;
-  height: flex;
   padding: 5px 25px;
   background-color: #fff;
   box-sizing: border-box;
+  min-height: 500px;
 `;
 
 export const RowkWrapper = styled.div`

@@ -73,4 +73,4 @@ router.delete("/:userId/:trackId", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

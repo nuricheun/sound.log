@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
-import { ColSection } from "../wrapper/wrapper";
-import { TrackImage } from "../trackImage/trackImage";
+import { ColSection } from "../designSystem/wrapper";
+import { TrackImage } from "./trackImage";
 
 export const BasicFormInput = styled.input`
   background-color: #fff;

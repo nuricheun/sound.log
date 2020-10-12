@@ -1,6 +1,6 @@
 export default (req, res, next) => {
   const { email, username, password } = req.body;
-  console.log("even coming here??");
+
   function validEmail(userEmail) {
     return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userEmail);
   }

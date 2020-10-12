@@ -1,6 +1,7 @@
 import merge from "lodash/merge";
 import { SET_CURRENT_USER, SIGNOUT_CURRENT_USER } from "../actions/authAction";
 
+
 const INITIAL_STATE = { userId: "" };
 
 export const authReducer = (state = INITIAL_STATE, action) => {

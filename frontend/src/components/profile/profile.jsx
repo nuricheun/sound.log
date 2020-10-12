@@ -4,11 +4,11 @@ import {
   ShowTopWrapper,
   ColSection,
   RowWrapper,
-} from "../wrapper/wrapper";
+} from "../designSystem/wrapper";
 import { Link } from "react-router-dom";
 import EditIcon from "@material-ui/icons/Edit";
 import styled from "styled-components";
-import { TitleSpan } from "../text/text";
+import { TitleSpan } from "../designSystem/text";
 import show_bg from "../../images/show_background.jpg";
 import selfie from "../../images/selfie.jpeg";
 import { ProfileImage } from "../designSystem/basicForm";

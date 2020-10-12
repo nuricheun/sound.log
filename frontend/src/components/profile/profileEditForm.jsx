@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { RowSection, CenterWrapper } from "../wrapper/wrapper";
+import { RowSection, CenterWrapper } from "../designSystem/wrapper";
 import {
   TitleP,
   WideForm,
@@ -16,7 +16,6 @@ import {
   FormWarningSpan,
 } from "../designSystem/basicForm";
 import { useForm } from "react-hook-form";
-import selfie from "../../images/selfie.jpeg";
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -73,7 +72,7 @@ export const ProfileEditForm = ({
         </FormTitleDiv>
         <RowSection>
           <FormLeftContainer>
-            <ProfileImage img={currentUser.avatar || selfie} />
+            <ProfileImage img={currentUser.avatar || imgData} />
             <BasicInputLabel>
               <FileInput
                 name="avatar"

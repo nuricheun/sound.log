@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { RowWrapper, RowkWrapper } from "../wrapper/wrapper";
+import { RowWrapper, RowkWrapper } from "../designSystem/wrapper";
 import { TrackItem } from "../trackItem/trackItem";
-import { SectionTitle, ItemTitle } from "../text/text";
-import { TextContainer } from "../text/textContainer";
+import { SectionTitle, ItemTitle } from "../designSystem/text";
+import { TextContainer } from "../designSystem/textContainer";
 
 export const Line = styled.hr`
   border: 0;

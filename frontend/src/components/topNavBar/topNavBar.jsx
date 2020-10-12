@@ -10,7 +10,7 @@ import ToggleMenu from "../toggleButton/toggleButton";
 import Autocomplete from "../autocomplete/autocomplete";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import { ButtonWrapper } from "../wrapper/wrapper";
+import { ButtonWrapper } from "../designSystem/wrapper";
 import { styled as materialStyled } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
@@ -94,6 +94,7 @@ export const TopNavBar = ({ currentUser }) => {
         <a
           href="https://github.com/nurinuriprettynuri/sound.log"
           target="_blank"
+          rel="noopener noreferrer"
         >
           <RightSection>
             <GitHubIcon />

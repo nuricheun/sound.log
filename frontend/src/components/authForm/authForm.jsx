@@ -122,7 +122,7 @@ export const AuthModalForm = ({
       .then(() => history.push("/tracks"))
       .then(() => closeModal());
   };
-  const inputRef = React.useRef(null);
+  const inputRef = useRef(null);
 
   return (
     <AuthFormContainer big={whichAuth !== "signin"}>

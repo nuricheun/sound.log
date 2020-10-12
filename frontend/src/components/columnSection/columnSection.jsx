@@ -1,6 +1,6 @@
 import React from "react";
-import { ColSection, BottomBorderDiv } from "../wrapper/wrapper";
-import { GreyH6 } from "../text/text";
+import { ColSection, BottomBorderDiv } from "../designSystem/wrapper";
+import { GreyH6 } from "../designSystem/text";
 import styled from "styled-components";
 
 const SectionTitleDiv = styled(BottomBorderDiv)`

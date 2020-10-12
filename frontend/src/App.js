@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Switch, Redirect } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import Splash from "./components/splash/splash";
 import Modal from "./components/authModal/authModal";
 import ConfirmModal from "./components/confirmModal/deleteConfirmModal";
@@ -11,11 +11,10 @@ import TrackIndex from "./components/trackIndex/trackIndex";
 import TrackShow from "./components/trackShow/trackShow.container";
 import PlayBar from "./components/playbar/playbar";
 import { ProtectedRoute, AuthRoute } from "./util/routeUtil";
-import { PageWrapper } from "./components/wrapper/wrapper";
+import { PageWrapper } from "./components/designSystem/wrapper";
 import TopNavBar from "./components/topNavBar/topNavBar";
-import UserProfile from "./components/user/profile.container";
-import UserEditForm from "./components/user/profileEditForm.container";
-import { Footer } from "./components/footer/footer";
+import UserProfile from "./components/profile/profile.container";
+import UserEditForm from "./components/profile/profileEditForm.container";
 
 function App() {
   return (
@@ -37,7 +36,7 @@ function App() {
             path="/tracks/:trackId/edit"
             component={TrackEditForm}
           />
-          
+
           <PlayBar />
         </PageWrapper>
       </Switch>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import styled from "styled-components";
-import { RowSection, CenterWrapper } from "../wrapper/wrapper";
+import { RowSection, CenterWrapper } from "../designSystem/wrapper";
 
 import {
   TitleP,

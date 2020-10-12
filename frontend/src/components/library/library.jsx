@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
-import { CenterWrapper, RowkWrapper } from "../wrapper/wrapper";
+import { CenterWrapper, RowkWrapper } from "../designSystem/wrapper";
 import { LibraryNavBar } from "./libaryNavBar";
 import { TrackItem } from "../trackItem/trackItem";
 import { connect } from "react-redux";
 import { fetchAllTracks } from "../../redux/actions/trackAction";
-
+import { TrackIndexRow } from "../trackIndexRow/trackIndexRow";
 import { fetchLikesByUserId } from "../../redux/actions/likeAction";
 
 const mapStateToProps = ({ tracks, currentUser }, ownProps) => {
@@ -48,21 +48,33 @@ const Library = ({
     (trackId) => tracks[trackId].artistId === currentUser.userId
   );
 
+  const recc = Object.keys(tracks)
+    .slice(0, 5)
+    .reduce((result, trackId) => {
+      result[trackId] = tracks[trackId];
+      return result;
+    }, {});
+
   const currentTracks = path === "/library/likes" ? likedTracks : myTracks;
 
   const mapped = currentTracks.map((trackId) => (
-    <TrackItem track={tracks[trackId]} />
+    <TrackItem key={trackId} track={tracks[trackId]} />
   ));
 
   return (
     <CenterWrapper>
       <LibraryNavBar path={path} />
-      {!currentTracks.length && (
+      {!currentTracks.length && path === "/library/likes" ? (
         <React.Fragment>
-          <RowkWrapper />
+          <TrackIndexRow
+            title={"Haven't found your favorite song?"}
+            subTitle={"Let's explore!"}
+            tracks={recc}
+          />
         </React.Fragment>
+      ) : (
+        <RowkWrapper>{mapped}</RowkWrapper>
       )}
-      <RowkWrapper>{mapped}</RowkWrapper>
     </CenterWrapper>
   );
 };

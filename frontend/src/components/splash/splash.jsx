@@ -6,8 +6,8 @@ import {
   ButtomWrapper,
   ButtonWrapper,
   PageWrapper,
-} from "../wrapper/wrapper";
-import { SectionTitle } from "../text/text";
+} from "../designSystem/wrapper";
+import { SectionTitle } from "../designSystem/text";
 import { TrackItem } from "../trackItem/trackItem";
 import SignInButton from "../authModalButton/authModalButton";
 import { connect } from "react-redux";

@@ -5,7 +5,6 @@ import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
 
-const middleWares = [thunk, logger];
 const persistConfig = {
   key: "root",
   storage,
@@ -15,7 +14,11 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const configStore = () => {
-  let store = createStore(persistedReducer, applyMiddleware(...middleWares));
+  let middleware = [thunk];
+  if (process.env.NODE_ENV !== "production") {
+    middleware = [...middleware, logger];
+  }
+  let store = createStore(persistedReducer, applyMiddleware(...middleware));
   let persistor = persistStore(store);
   return { store, persistor };
 };

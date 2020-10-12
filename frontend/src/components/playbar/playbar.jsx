@@ -4,7 +4,7 @@ import ReactAudioPlayer from "react-audio-player";
 import SkipNextIcon from "@material-ui/icons/SkipNext";
 import SkipPreviousIcon from "@material-ui/icons/SkipPrevious";
 import { MiddleNavWrapper } from "../designSystem/navbar";
-import { BasicPlayButton } from "../playButton/playButton";
+import { BasicPlayButton } from "../playButton/playButton.container";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import { styled as materialStyled } from "@material-ui/core/styles";
@@ -34,7 +34,7 @@ const PlaybarButtonWrapper = materialStyled(Button)({
 });
 
 const ProgressBar = styled.div`
-  background-color: #fff;
+  background-color: #dabfde;
   width: 480px;
   height: 8px;
   margin: 0 20px;
@@ -42,7 +42,7 @@ const ProgressBar = styled.div`
 `;
 
 const Progress = styled.span`
-  background-color: #dabfde;
+  background-color: #dc4e76;
   height: 8px;
   display: inline-block;
   width: ${(props) => props.currentWidth};
@@ -57,7 +57,6 @@ export const PlayBar = ({ playbar }) => {
   const [playingStatus, setStatus] = useState(false);
   const [volume, setVolume] = useState(1);
 
-  let tick;
   useEffect(() => {
     if (isPlaying && ref.current) {
       ref.current.audioEl.current.play();
@@ -72,7 +71,7 @@ export const PlayBar = ({ playbar }) => {
 
   useEffect(() => {
     if (playingStatus) {
-      tick = setTimeout(() => {
+      setTimeout(() => {
         setCurrentTime((pre) => pre + 0.5);
       }, 500);
     }

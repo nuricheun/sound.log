@@ -7,7 +7,10 @@ export const BasicPlayButtonIcon = ({ playbar, playTrack, pauseTrack }) => {
   const currentButton = playbar.isPlaying ? (
     <PauseIcon onClick={pauseTrack} />
   ) : (
-    <PlayArrowIcon onClick={() => playTrack(currentTrack)} />
+    <PlayArrowIcon
+      onClick={() => playTrack(currentTrack.trackId)}
+      disabled={!currentTrack}
+    />
   );
 
   return <React.Fragment>{currentButton}</React.Fragment>;

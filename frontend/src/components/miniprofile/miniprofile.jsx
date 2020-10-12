@@ -1,5 +1,5 @@
 import React from "react";
-import { ProfileImage } from "../wrapper/wrapper";
+import { ProfileImage } from "../designSystem/wrapper";
 import styled from "styled-components";
 
 const ProfileWrapper = styled.div`

@@ -16,6 +16,6 @@ export const updateUserById = (userId, cols, files) => {
   query.push(set.join(", "));
   query.push(`WHERE id = '${userId}' RETURNING id as "userId"`);
   const updateQuery = query.join(" ");
-  console.log(updateQuery, "?");
+
   return [updateQuery, values];
 };

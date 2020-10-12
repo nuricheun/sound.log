@@ -11,13 +11,15 @@ import {
 } from "../actions/likeAction";
 import merge from "lodash/merge";
 
-export const trackReducer = (state = {}, action) => {
+const INITIAL_STATE = { liked: {}, tracks: {}, trendy: {} };
+
+export const trackReducer = (state = INITIAL_STATE, action) => {
   Object.freeze(state);
   let newState = {};
   switch (action.type) {
     case RECEIVE_ALL_TRACKS:
       action.tracks.forEach((track) => {
-        newState[track.trackId] = { ...newState[track.trackId], ...track };
+        newState[track.trackId] = merge({}, newState[track.trackId], track);
       });
       return newState;
     case RECEIVE_ALL_LIKES:

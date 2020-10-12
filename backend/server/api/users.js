@@ -4,11 +4,8 @@ import validation from "../middleware/validations";
 import { upload } from "../middleware/multer";
 import bcrypt from "bcryptjs";
 import pool from "../db/db";
-import dotenv from "dotenv";
 import { jwtGenerator } from "../utils/jwtGenerator";
 import authorization from "../middleware/authorization";
-
-dotenv.config();
 
 const router = express.Router();
 const userUpload = upload.any();
@@ -19,15 +16,15 @@ const userUpload = upload.any();
 router.get("/", authorization, async (req, res) => {
   try {
     const { userId } = req;
-    // console.log(userId);
+
     const user = await pool.query(
       `SELECT id as "userId", username, location, email, avatar FROM users WHERE id=$1`,
       [userId]
     );
-    return res.send(user.rows[0]);
+    return res.json(user.rows[0]);
   } catch (err) {
     console.log(err);
-    res.status(500).send("Server error");
+    res.status(500).json("Server error");
   }
 });
 
@@ -43,7 +40,7 @@ router.post("/", validation, async (req, res) => {
     ]);
 
     if (user.rows.length > 0) {
-      return res.status(401).json("User already exist!");
+      return res.status(401).json("Existing user email");
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -58,7 +55,7 @@ router.post("/", validation, async (req, res) => {
 
     return res.json({ jwtToken, user: newUser.rows[0] });
   } catch (err) {
-    res.status(500).send("Server error");
+    res.status(500).json("Server error");
   }
 });
 
@@ -89,7 +86,7 @@ router.post("/signin", validation, async (req, res) => {
     const jwtToken = jwtGenerator(user.rows[0].userId);
     return res.json({ jwtToken, user: user.rows[0] });
   } catch (err) {
-    res.status(500).send("Server Error");
+    res.status(500).json("Server Error");
   }
 });
 
@@ -100,8 +97,6 @@ router.post("/signin", validation, async (req, res) => {
 router.patch("/", authorization, userUpload, async (req, res) => {
   const { userId } = req;
   let [updateQuery, values] = updateUserById(userId, req.body, req.files);
-  console.log(req.files);
-  console.log(updateQuery);
 
   try {
     await pool.query(updateQuery, values);
@@ -113,7 +108,7 @@ router.patch("/", authorization, userUpload, async (req, res) => {
     res.json(user.rows[0]);
   } catch (err) {
     console.log(err);
-    res.status(500).send("server error");
+    res.status(500).json("server error");
   }
 });
 
@@ -131,8 +126,8 @@ router.delete("/", authorization, async (req, res) => {
     );
     return res.json(deletedUser.rows[0].userId);
   } catch (err) {
-    res.status(500).send("Server error");
+    res.status(500).json("Server error");
   }
 });
 
-module.exports = router;
+export default router;

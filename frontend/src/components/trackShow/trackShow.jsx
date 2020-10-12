@@ -4,13 +4,13 @@ import {
   ButtomWrapper,
   ColSection,
   VerticalLine,
-} from "../wrapper/wrapper";
+} from "../designSystem/wrapper";
 import show_bg from "../../images/show_background.jpg";
-import { TrackImage } from "../trackImage/trackImage";
+import { TrackImage } from "../designSystem/trackImage";
 import styled from "styled-components";
-import { TitleSpan } from "../text/text";
-import { TextContainer } from "../text/textContainer";
-import { OrangePlayButton } from "../playButton/playButton";
+import { TitleSpan } from "../designSystem/text";
+import { TextContainer } from "../designSystem/textContainer";
+import { OrangePlayButton } from "../playButton/playButton.container";
 import { Comment } from "../comment/comment";
 import CommentForm from "../comment/comment.container";
 import { MiniProfile } from "../miniprofile/miniprofile";

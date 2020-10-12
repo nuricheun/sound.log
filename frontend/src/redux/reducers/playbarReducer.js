@@ -3,7 +3,6 @@ import merge from "lodash/merge";
 
 const defaultState = {
   currentTrack: { trackId: "", title: "", audioUrl: "" },
-  played: {},
   isPlaying: false,
   currentTime: 0,
 };

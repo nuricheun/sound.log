@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { TrackImage } from "../trackImage/trackImage";
-import { TextContainer } from "../text/textContainer";
-import { ItemTitle, GreyH6 } from "../text/text";
-import { OrangePlayButton } from "../playButton/playButton";
+import { TrackImage } from "../designSystem/trackImage";
+import { TextContainer } from "../designSystem/textContainer";
+import { ItemTitle, GreyH6 } from "../designSystem/text";
+import { OrangePlayButton } from "../playButton/playButton.container";
 import LikeButton from "../likeButton/likeButton";
 import DeleteButton from "../deleteButton/deleteButton";
 import { Link } from "react-router-dom";
@@ -16,11 +16,6 @@ const TrackItemDiv = styled.div`
   justify-content: flex-start;
   margin-bottom: 15px;
   position: relative;
-`;
-
-const ImageLink = styled.link`
-  height: 100%;
-  width: 100%;
 `;
 
 export const TrackItem = ({ track }) => {

@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-dotenv.config();
+import KEYS from "../../config/keys";
 
 export const jwtGenerator = (userId) => {
   const payload = {
@@ -8,5 +7,5 @@ export const jwtGenerator = (userId) => {
       userId,
     },
   };
-  return jwt.sign(payload, process.env.JWT_KEY, { expiresIn: "1h" });
+  return jwt.sign(payload, KEYS.JWT_KEY, { expiresIn: "1h" });
 };

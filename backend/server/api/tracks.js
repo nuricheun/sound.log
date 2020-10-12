@@ -14,9 +14,9 @@ router.get("/", async (req, res) => {
     const tracks = await pool.query(
       `SELECT t.id as "trackId", t.title as title, t.audio as "audioUrl", t.image as "imageUrl", t.description as description, u.id as "artistId", u.username as username, u.location as location, u.avatar as avatar FROM tracks as t INNER JOIN users as u ON t.artist = u.id ORDER BY t.created_at DESC`
     );
-    res.send(tracks.rows);
+    res.json(tracks.rows);
   } catch (err) {
-    res.status(500).send("server error");
+    res.status(500).json("server error");
   }
 });
 
@@ -32,10 +32,10 @@ router.get("/:trackId", async (req, res) => {
       [trackId]
     );
 
-    res.send(track.rows[0]);
+    res.json(track.rows[0]);
   } catch (err) {
     console.log(err);
-    res.status(500).send("server error");
+    res.status(500).json("server error");
   }
 });
 
