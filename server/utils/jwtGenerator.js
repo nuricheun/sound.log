@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import KEYS from "../../config/keys";
+import KEYS from "../config/keys";
 
 export const jwtGenerator = (userId) => {
   const payload = {

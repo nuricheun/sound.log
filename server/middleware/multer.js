@@ -1,7 +1,7 @@
 import multer from "multer";
 import AWS from "aws-sdk";
 import multerS3 from "multer-s3";
-import KEYS from "../../config/keys";
+import KEYS from "../config/keys";
 
 AWS.config.update({
   secretAccessKey: KEYS.AWS_SECRET,

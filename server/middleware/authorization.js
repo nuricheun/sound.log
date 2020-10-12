@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import KEYS from "../../config/keys";
+import KEYS from "../config/keys";
 
 /**
  * check user's authorization through jwt token from req.header
