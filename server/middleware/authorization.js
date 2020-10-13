@@ -13,10 +13,8 @@ export default (req, res, next) => {
   }
   // Verify token
   try {
-    console.log(KEYS.JWT_KEY);
     const payload = jwt.verify(jwtToken, KEYS.JWT_KEY);
     console.log(payload);
-
     req.userId = payload.user.userId;
     next();
   } catch (err) {

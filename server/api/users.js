@@ -96,6 +96,7 @@ router.post("/signin", validation, async (req, res) => {
 
 router.patch("/", authorization, userUpload, async (req, res) => {
   const { userId } = req;
+  console.log(userId, "??");
   let [updateQuery, values] = updateUserById(userId, req.body, req.files);
 
   try {
