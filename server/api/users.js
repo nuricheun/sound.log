@@ -101,7 +101,7 @@ router.patch("/:userId", userUpload, async (req, res) => {
   let [updateQuery, values] = updateUserById(userId, req.body, req.files);
 
   try {
-    await pool.query(updateQuery, values);
+    const temp = await pool.query(updateQuery, values);
     const user = await pool.query(
       `SELECT id as "userId", username, location, email, password, avatar FROM users WHERE id=$1`,
       [userId]
