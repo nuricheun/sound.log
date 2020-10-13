@@ -9,7 +9,7 @@ export const fetchUser = () =>
     headers: { authorization: "Bearer " + localStorage.getItem("jwtToken") },
   });
 
-export const updateUser = (user) =>
-  axios.patch(`/api/users`, user, {
+export const updateUser = (user, userId) =>
+  axios.patch(`/api/users/${userId}`, user, {
     headers: { authorization: "Bearer " + localStorage.getItem("jwtToken") },
   });

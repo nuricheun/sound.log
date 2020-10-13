@@ -65,7 +65,7 @@ export const ProfileEditForm = ({
       formData.append("avatar", data.avatar[0]);
     }
 
-    updateUser(formData).then((res) => history.push(`/you`));
+    updateUser(formData, currentUser.userId).then((res) => history.push(`/you`));
   };
 
   return (
@@ -76,7 +76,9 @@ export const ProfileEditForm = ({
         </FormTitleDiv>
         <RowSection>
           <FormLeftContainer>
-            <ProfileImage img={currentUser.avatar || imgData} />
+            <ProfileImage
+              img={(currentUser && currentUser.avatar) || imgData}
+            />
             <BasicInputLabel>
               <FileInput
                 name="avatar"
@@ -90,7 +92,7 @@ export const ProfileEditForm = ({
             <BasicFormInput
               name="username"
               ref={register({ required: true })}
-              defaultValue={currentUser.username}
+              defaultValue={currentUser && currentUser.username}
             />
             {errors.username && errors.username.type === "required" && (
               <FormWarningSpan>Username is required</FormWarningSpan>
@@ -100,7 +102,7 @@ export const ProfileEditForm = ({
             <BasicFormInput
               name="email"
               ref={register({ required: true })}
-              defaultValue={currentUser.email}
+              defaultValue={currentUser && currentUser.email}
             />
             {errors.email && errors.email.type === "required" && (
               <FormWarningSpan>Email is required</FormWarningSpan>
@@ -120,13 +122,13 @@ export const ProfileEditForm = ({
             <BasicFormInput
               name="location"
               ref={register({ required: false })}
-              defaultValue={currentUser.location || ""}
+              defaultValue={(currentUser && currentUser.location) || ""}
             />
             <BasicInputLabel>Bio</BasicInputLabel>
             <BasicTextArea
               name="bio"
               ref={register({ required: false })}
-              defaultValue={currentUser.bio || ""}
+              defaultValue={(currentUser && currentUser.bio) || ""}
             />
 
             <ButtonWrapper>

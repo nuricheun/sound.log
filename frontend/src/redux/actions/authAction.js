@@ -35,8 +35,10 @@ export const signin = (user) => (dispatch) =>
 export const fetchUser = () => (dispatch) =>
   APIUtil.fetchUser().then((res) => dispatch(setCurrentUser(res.data)));
 
-export const updateUser = (user) => (dispatch) =>
-  APIUtil.updateUser(user).then((res) => dispatch(setCurrentUser(res.data)));
+export const updateUser = (user, userId) => (dispatch) =>
+  APIUtil.updateUser(user, userId).then((res) =>
+    dispatch(setCurrentUser(res.data))
+  );
 
 export const signout = () => (dispatch) => {
   localStorage.removeItem("jwtToken");
