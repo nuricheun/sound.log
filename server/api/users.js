@@ -6,9 +6,9 @@ import bcrypt from "bcryptjs";
 import pool from "../db/db";
 import { jwtGenerator } from "../utils/jwtGenerator";
 import authorization from "../middleware/authorization";
+const userUpload = upload.any();
 
 const router = express.Router();
-const userUpload = upload.any();
 
 /**
  * getting user information
@@ -95,7 +95,8 @@ router.post("/signin", validation, async (req, res) => {
  */
 
 router.patch("/:userId", authorization, userUpload, async (req, res) => {
-  const { userId } = req;
+  // const userId = req.userId;
+  const userId = req.params;
 
   let [updateQuery, values] = updateUserById(userId, req.body, req.files);
 
