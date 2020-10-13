@@ -62,6 +62,8 @@ router.delete("/:trackId", authorization, async (req, res) => {
  */
 router.patch("/:trackId", authorization, trackUpload, async (req, res) => {
   const { trackId } = req.params;
+  const { userId } = req;
+
   const [updateQuery, values] = updateTrackById(trackId, req.body, req.files);
 
   try {
