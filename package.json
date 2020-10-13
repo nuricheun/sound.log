@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nodemon --exec babel-node ./server/bin/www",
-    "server": "node './build/bin/www",
+    "server": "node ./build/bin/www",
     "clean": "rm -rf build && mkdir build",
     "babel-build": "babel -d ./build ./server -s",
     "build": "yarn run clean && yarn run babel-build",
