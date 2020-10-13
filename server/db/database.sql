@@ -9,6 +9,7 @@ CREATE TABLE users(
     password VARCHAR(255) UNIQUE NOT NULL,
     location VARCHAR(255),
     avatar VARCHAR(255),
+    bio TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
