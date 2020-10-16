@@ -3,6 +3,7 @@ import styled from "styled-components";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { TrackItemButtonDiv } from "../designSystem/trackStyledComponents";
 import { openModal } from "../../redux/actions/modalAction";
+import Tooltip from "@material-ui/core/Tooltip";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 
@@ -25,7 +26,7 @@ const DeleteButton = ({ track, userId, openModal }) => {
     icon: {
       color: "#fff",
       opacity: "0.5",
-      "&:hover": { color: "#dabfde", opacity: "0.8" },
+      "&:hover": { color: "#dc4e76", opacity: "0.6" },
     },
   });
   const classes = useStyles();
@@ -33,10 +34,12 @@ const DeleteButton = ({ track, userId, openModal }) => {
 
   return (
     <DeleteButtonDiv>
-      <DeleteIcon
-        className={classes.icon}
-        onClick={() => openModal({ type: "confirm", data: track.trackId })}
-      />
+      <Tooltip title="Delete track">
+        <DeleteIcon
+          className={classes.icon}
+          onClick={() => openModal({ type: "confirm", data: track.trackId })}
+        />
+      </Tooltip>
     </DeleteButtonDiv>
   );
 };

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { CenterWrapper, ColSection, RowWrapper } from "../designSystem/wrapper";
-
 import EditIcon from "@material-ui/icons/Edit";
 import styled from "styled-components";
 import { TitleSpan } from "../designSystem/textStyledComponents";
+import Tooltip from "@material-ui/core/Tooltip";
+import { makeStyles } from "@material-ui/core/styles";
 import show_bg from "../../images/show_background.jpg";
-import selfie from "../../images/selfie.jpeg";
 
 import {
   ProfileTopWrapper,
@@ -20,6 +20,15 @@ const ProfileCol = styled(ColSection)`
 
 export const UserProfile = ({ fetchUser, currentUser }) => {
   const [isLoading, setLoading] = useState(true);
+
+  const useStyles = makeStyles({
+    icon: {
+      color: "#fff",
+      opacity: "0.7",
+      "&:hover": { color: "#dc4e76" },
+    },
+  });
+  const classes = useStyles();
   useEffect(() => {
     fetchUser(currentUser.userId).then(() => setLoading(false));
   }, []);
@@ -36,10 +45,12 @@ export const UserProfile = ({ fetchUser, currentUser }) => {
   return (
     <CenterWrapper>
       <ProfileTopWrapper img={show_bg}>
-        <ProfileImage img={currentUser.avatar || selfie} />
+        <ProfileImage img={currentUser.avatar || ""} />
         <ProfileCol>{mapped}</ProfileCol>
         <LinkButton to="/you/edit">
-          <EditIcon />
+          <Tooltip title="Edit profile">
+            <EditIcon className={classes.icon} />
+          </Tooltip>
         </LinkButton>
       </ProfileTopWrapper>
 

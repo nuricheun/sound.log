@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import DoneIcon from "@material-ui/icons/Done";
 import { CommentInputDiv } from "../designSystem/commentStyledComponents";
+import Tooltip from "@material-ui/core/Tooltip";
 import { useForm } from "react-hook-form";
 
 const MiniProfilePicture = styled.div`
@@ -54,7 +55,9 @@ export const CommentForm = ({ userId, trackId, createComment, avatar }) => {
       <MiniProfilePicture img={avatar} />
       <CommentInput name="body" ref={register({ required: true })} />
       <CommentButton value="submit">
-        <DoneIcon />
+        <Tooltip title="Submit">
+          <DoneIcon />
+        </Tooltip>
       </CommentButton>
     </CommentInputDiv>
   );

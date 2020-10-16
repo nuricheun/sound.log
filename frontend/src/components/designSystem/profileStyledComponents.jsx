@@ -41,4 +41,5 @@ export const ProfileImage = styled(TrackImage)`
   width: 280px;
   height: 280px;
   border: 1px solid #ccc;
+  background-color: #8c92ac;
 `;

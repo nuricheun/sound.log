@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import { CenterWrapper, ColSection } from "../designSystem/wrapper";
 import { TitleSpan } from "../designSystem/textStyledComponents";
 import styled from "styled-components";
-import selfie from "../../images/selfie.jpeg";
-import EditIcon from "@material-ui/icons/Edit";
+
 import {
   ProfileTopWrapper,
   Paragraph,
-  LinkButton,
   ProfileImage,
 } from "../designSystem/profileStyledComponents";
 import { TrackIndexRow } from "../trackIndexRow/trackIndexRow";
@@ -53,11 +51,8 @@ export const ArtistProfile = ({
   return (
     <CenterWrapper>
       <ProfileTopWrapper img={show_bg}>
-        <ProfileImage img={artist.avatar || selfie} />
+        <ProfileImage img={artist.avatar || ""} />
         <ProfileCol>{mapped}</ProfileCol>
-        <LinkButton to="/you/edit">
-          <EditIcon />
-        </LinkButton>
       </ProfileTopWrapper>
       <TrackIndexRow
         tracks={tracksByArtist}

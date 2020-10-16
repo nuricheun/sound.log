@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { CenterWrapper } from "../designSystem/wrapper";
-import { RowTrackWrapper } from "../designSystem/trackStyledComponents";
 import { LibraryNavBar } from "./libaryNavBar";
-import { TrackItem } from "../trackItem/trackItem";
 import { connect } from "react-redux";
 import { fetchAllTracks } from "../../redux/actions/trackAction";
 import { TrackIndexRow } from "../trackIndexRow/trackIndexRow";
 import { fetchLikesByUserId } from "../../redux/actions/likeAction";
+import { RowWrapper } from "../designSystem/wrapper";
+import { RowTrackWrapper } from "../designSystem/trackStyledComponents";
+import { TrackItem } from "../trackItem/trackItem";
+import { GrayH4 } from "../designSystem/textStyledComponents";
 
 const mapStateToProps = ({ tracks, currentUser }, ownProps) => {
   return {
@@ -45,9 +47,12 @@ const Library = ({
     (trackId) => tracks[trackId].liked
   );
 
-  const myTracks = Object.keys(tracks).filter(
-    (trackId) => tracks[trackId].artistId === currentUser.userId
-  );
+  const myTracks = Object.keys(tracks)
+    .filter((trackId) => tracks[trackId].artistId === currentUser.userId)
+    .reduce((res, curr) => {
+      res.push(tracks[curr]);
+      return res;
+    }, []);
 
   const recc = Object.keys(tracks)
     .slice(0, 5)
@@ -57,10 +62,11 @@ const Library = ({
     }, []);
 
   const currentTracks = path === "/library/likes" ? likedTracks : myTracks;
-
-  const mapped = currentTracks.map((trackId) => (
-    <TrackItem key={trackId} track={tracks[trackId]} />
+  const mapped = currentTracks.map((track) => (
+    <TrackItem key={track} track={tracks[track]} />
   ));
+  const currentSubTitle =
+    path === "/library/likes" ? "Tracks you've liked" : "Tracks you've created";
 
   return (
     <CenterWrapper>
@@ -74,7 +80,12 @@ const Library = ({
           />
         </React.Fragment>
       ) : (
-        <RowTrackWrapper>{mapped}</RowTrackWrapper>
+        <React.Fragment>
+          <RowWrapper>
+            <GrayH4>{currentSubTitle}</GrayH4>
+            <RowTrackWrapper>{mapped}</RowTrackWrapper>
+          </RowWrapper>
+        </React.Fragment>
       )}
     </CenterWrapper>
   );

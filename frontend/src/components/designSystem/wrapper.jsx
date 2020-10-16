@@ -64,7 +64,7 @@ export const ButtomWrapper = styled.div`
 export const RowWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 100%;
   padding: 5px 25px;
   background-color: #fff;

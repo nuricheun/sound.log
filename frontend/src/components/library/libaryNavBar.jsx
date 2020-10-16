@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const NavWrapper = styled.div`
   width: 98%;
-  padding: 20px 20px 0;
+  padding: 20px 0px 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -13,7 +13,7 @@ const NavWrapper = styled.div`
 `;
 
 const NavBarLink = styled(Link)`
-  font-size: 24px;
+  font-size: 26px;
   color: ${(props) => (props.path === props.to ? "#ff7802" : "#333")};
   text-decoration: none;
   padding: 5px 10px;

@@ -38,3 +38,10 @@ export const TextContainer = styled.div`
   align-items: start;
   box-sizing: border-box;
 `;
+
+export const GrayH4 = styled.h4`
+  font-size: 16px;
+  color: #999;
+  font-weight: 400;
+  margin: 0;
+`;

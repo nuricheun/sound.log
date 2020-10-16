@@ -6,17 +6,17 @@ import {
   VerticalLine,
 } from "../designSystem/wrapper";
 import show_bg from "../../images/show_background.jpg";
-import { TrackImage } from "../designSystem/trackStyledComponents";
+import { TrackImage, EditLink } from "../designSystem/trackStyledComponents";
 import styled from "styled-components";
 import { TitleSpan, TextContainer } from "../designSystem/textStyledComponents";
-
 import { OrangePlayButton } from "../playButton/playButton.container";
 import { Comment } from "../comment/comment";
 import CommentForm from "../comment/comment.container";
 import { MiniProfile } from "../miniprofile/miniprofile";
 import { ColumnSection } from "../columnSection/columnSection";
 import EditIcon from "@material-ui/icons/Edit";
-import { Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const TopLeftDiv = styled.div`
   display: flex;
@@ -76,6 +76,14 @@ export const TrackShow = ({
   comments,
 }) => {
   const [isLoading, setLoading] = useState(true);
+  const useStyles = makeStyles({
+    icon: {
+      color: "#fff",
+      opacity: "0.5",
+      "&:hover": { color: "#dc4e76", opacity: "0.6" },
+    },
+  });
+  const classes = useStyles();
   useEffect(() => {
     fetchTrack(trackId)
       .then(() => fetchComments(trackId))
@@ -104,11 +112,13 @@ export const TrackShow = ({
             <TitleSpan>{track.username}</TitleSpan>
             <TitleSpan big>{track.title}</TitleSpan>
             {track.artistId === userId && (
-              <Link to={`/tracks/${track.trackId}/edit`}>
-                <IconWrapper>
-                  <EditIcon />
-                </IconWrapper>
-              </Link>
+              <EditLink to={`/tracks/${track.trackId}/edit`}>
+                <Tooltip title="Edit track">
+                  <IconWrapper>
+                    <EditIcon className={classes.icon} />
+                  </IconWrapper>
+                </Tooltip>
+              </EditLink>
             )}
           </TextContainer>
         </TopLeftDiv>

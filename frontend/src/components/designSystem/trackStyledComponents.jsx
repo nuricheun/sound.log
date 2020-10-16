@@ -1,4 +1,6 @@
 import styled, { css } from "styled-components";
+import EditIcon from "@material-ui/icons/Edit";
+import { Link } from "react-router-dom";
 
 export const ShowTopWrapper = styled.div`
   display: flex;
@@ -35,7 +37,7 @@ export const RowTrackWrapper = styled.div`
   width: 100%;
   flex-direction: row;
   justify-content: flex-start;
-  margin-top: 20px;
+  margin-top: 40px;
 `;
 
 export const TrackItemButtonDiv = styled.div`
@@ -61,3 +63,11 @@ export const TrackArtistProfileImage = styled.div`
       height: 40px;
     `}
 `;
+
+export const EditLink = styled(Link)`
+  text-decoration: none;
+  color: #fff;
+  &:hover { color: "#dabfde", opacity: "0.8" };
+`;
+
+// export const Edit = styled(EditButton)``;

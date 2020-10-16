@@ -18,7 +18,7 @@ const TrackItemDiv = styled.div`
   width: 180px;
   align-items: flex-start;
   justify-content: flex-start;
-  margin-bottom: 15px;
+  margin-bottom: 35px;
   position: relative;
   margin-right: 10px;
 `;
