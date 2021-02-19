@@ -2,10 +2,6 @@
 
 Sound.log is a music upload sharing web application inspired by SoundCloud(http://www.soundcloud.com) created by Nuri Jeon.
 
-## Quickstart
-
-- cd frontend && yarn && yarn start
-- cd backend && yarn && yarn start
 
 ## Skills
 
